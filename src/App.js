@@ -29,7 +29,7 @@ const App = ({ dispatch, state }) => {
     setupClient(setGlobalState, setPlayerID);
     setupHand(setGlobalHand);
   }, []);
-  console.log(state);
+ 
   return (
     <div className="App">
       {state.gameState == "FULL" ? (
