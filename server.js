@@ -135,6 +135,14 @@ const setupClients = (client) => {
     client.emit("HAND_REQUEST", hand);
   });
 
+  //REQUEST PICKUP FROM DECK
+  client.on("PICKUP_DECK",()=>{
+    var card = createRandomHand(1);
+    var hand= playersHands.find((player)=>(player.id==client.client.id)).cards
+    hand.push(card[0])
+    client.emit("HAND_REQUEST", hand);
+  })
+
   //disconnect
   client.on("disconnect", () => {
     var index = playerList.findIndex((usr) => usr.id == client.client.id);

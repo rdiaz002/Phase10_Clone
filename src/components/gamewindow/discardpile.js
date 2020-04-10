@@ -1,23 +1,23 @@
-import React from 'react'
+import React from "react";
+import PickUpDeck from "./pickupdeck";
 
-
-const DiscardPile = ({discardPile})=>{
-
-    return(
-        <div className="Discard">
-            <div className="Container">
-                <div className="Card">
-                <h2>{discardPile[0].type}</h2>
-                <h2>{discardPile[0].number}</h2>
-                </div>
-            </div>
+const DiscardPile = ({ discardPile }) => {
+  return (
+    <div className="Discard">
+      <div className="Container">
+        <div className="Card">
+          {discardPile.map((item) => (
+            <>
+              <h2>{item.type}</h2>
+              <h2>{item.number}</h2>
+            </>
+          ))}
         </div>
-        
-        
 
-    )
-
-
-}
+        <PickUpDeck />
+      </div>
+    </div>
+  );
+};
 
 export default DiscardPile;

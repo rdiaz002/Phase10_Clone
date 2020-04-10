@@ -43,3 +43,7 @@ export const startGame = () => {
 export const requestHand=()=>{
   socket.emit("CREATE_HAND");
 }
+
+export const requestPickup=()=>{
+  socket.emit("PICKUP_DECK");
+}
