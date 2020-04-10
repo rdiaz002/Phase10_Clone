@@ -16,6 +16,7 @@ var gameState = "WAITING";
 var playersHands = [];
 var currentPlayer = "";
 var deck = [...DEFAULT_DECK];
+var deckSize = 108;
 var discardPile = [];
 
 const UpdateRoomInfo = () => {
@@ -36,6 +37,9 @@ const getRndInt = (min, max) => {
 const createRandomHand = (size) => {
   var hand = [];
   for (i = 0; i < size; i++) {
+    if(deckSize==0){
+      return hand;
+    }
     var colorNum = getRndInt(0, deck.length);
     while (
       !deck[colorNum].some((val) => {
@@ -50,6 +54,7 @@ const createRandomHand = (size) => {
     }
     hand.push({ type: COLORS[colorNum], number: cardNum + 1 });
     deck[colorNum][cardNum]--;
+    deckSize--;
   }
   return hand;
 };
@@ -83,6 +88,7 @@ const returnToDeck = (cards) => {
         break;
     }
     deck[colorIndex][element.number - 1]++;
+    deckSize++;
   });
 };
 
@@ -108,6 +114,7 @@ const setupClients = (client) => {
       gameState = "Running";
       playersHands = [];
       deck = [...DEFAULT_DECK];
+      deckSize=108
       currentPlayer = chooseRandomPlayer();
       discardPile = createRandomHand(1);
       while (discardPile[0].type == "Skip") {
