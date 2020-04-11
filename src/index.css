@@ -50,6 +50,18 @@ code {
   flex: 1;
 }
 
-.Discard .Container{
+.Discard .Container {
   justify-content: center;
+}
+
+.NoGo {
+  border: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+.Turn {
+  border: solid;
+  border-width: 2px;
+  border-color: darkgreen;
 }

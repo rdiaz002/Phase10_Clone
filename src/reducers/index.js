@@ -6,6 +6,7 @@ import {
   hostID,
   playerList,
   playerHand,
+  playerState,
 } from "./playerinfo";
 import { gameState, currentPlayer, discardPile } from "./gamestate";
 
@@ -16,6 +17,7 @@ export default combineReducers({
   playerList,
   chatLog,
   gameState,
+  playerState,
   playerHand,
   currentPlayer,
   discardPile,

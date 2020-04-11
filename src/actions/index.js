@@ -7,6 +7,7 @@ const updateGameState_t = "UPDATE_GAMESTATE";
 const updatePlayerHand_t = "UPDATE_PLAYERHAND";
 const updateCurrentPlayer_t = "UPDATE_TURN";
 const updateDiscardPile_t = "UPDATE_PILE";
+const updatePlayerState_t = "UPDATE_PLAYERSTATE";
 export const updateChat = (msg) => ({
   type: updateChat_t,
   msg,
@@ -50,4 +51,9 @@ export const updateCurrentPlayer = (currentPlayer) => ({
 export const updateDiscardPile = (discardPile) => ({
   type: updateDiscardPile_t,
   discardPile,
+});
+
+export const updatePlayerState = (playerState) => ({
+  type: updatePlayerState_t,
+  playerState,
 });

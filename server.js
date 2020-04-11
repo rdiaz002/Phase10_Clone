@@ -1,5 +1,11 @@
 const io = require("socket.io")();
-
+/**
+ * TODO: add skip logic
+ * TODO: add phase patterns and checks
+ * TODO: add winning conditions and ending game logic.
+ * TODO: add logic for players disconnecting in middle of game.
+ * TODO: change currentPlayer to an index for easier search.
+ */
 var DEFAULT_DECK = [
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -15,6 +21,7 @@ var hostID = "";
 var gameState = "WAITING";
 var playersHands = [];
 var currentPlayer = "";
+var currentIndex = 0;
 var deck = [...DEFAULT_DECK];
 var deckSize = 108;
 var discardPile = [];
@@ -30,6 +37,22 @@ const UpdateRoomInfo = () => {
   //where i will pass all needed info that will be updated
 };
 
+const discardCard = (card) => {
+  if (discardPile.length > 1) {
+    returnToDeck([discardPile[0]]);
+    discardPile.splice(0, 1);
+    discardPile.push(card);
+  } else {
+    discardPile.push(card);
+  }
+};
+
+const nextPlayer = (inc = 1) => {
+  currentIndex += inc;
+  currentIndex %= playerList.length;
+  currentPlayer = playerList[currentIndex].id;
+};
+
 const getRndInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -37,7 +60,7 @@ const getRndInt = (min, max) => {
 const createRandomHand = (size) => {
   var hand = [];
   for (i = 0; i < size; i++) {
-    if(deckSize==0){
+    if (deckSize == 0) {
       return hand;
     }
     var colorNum = getRndInt(0, deck.length);
@@ -61,6 +84,7 @@ const createRandomHand = (size) => {
 
 const chooseRandomPlayer = () => {
   var index = getRndInt(0, playerList.length);
+  currentIndex = index;
   return playerList[index].id;
 };
 
@@ -114,7 +138,7 @@ const setupClients = (client) => {
       gameState = "Running";
       playersHands = [];
       deck = [...DEFAULT_DECK];
-      deckSize=108
+      deckSize = 108;
       currentPlayer = chooseRandomPlayer();
       discardPile = createRandomHand(1);
       while (discardPile[0].type == "Skip") {
@@ -143,12 +167,30 @@ const setupClients = (client) => {
   });
 
   //REQUEST PICKUP FROM DECK
-  client.on("PICKUP_DECK",()=>{
+  client.on("PICKUP_DECK", () => {
     var card = createRandomHand(1);
-    var hand= playersHands.find((player)=>(player.id==client.client.id)).cards
-    hand.push(card[0])
+    var hand = playersHands.find((player) => player.id == client.client.id)
+      .cards;
+    hand.push(card[0]);
     client.emit("HAND_REQUEST", hand);
-  })
+  });
+
+  //Discard Card
+  client.on("DISCARD", (card) => {
+    if (currentPlayer == client.client.id) {
+      var hand = playersHands.find((player) => player.id == client.client.id)
+        .cards;
+      var ind = hand.findIndex(
+        (item) => item.type == card.type && item.number == card.number
+      );
+      discardCard(hand[ind]);
+      hand.splice(ind, 1);
+      client.emit("HAND_REQUEST", hand);
+      //TODO:add skip logic
+      nextPlayer();
+      UpdateRoomInfo();
+    }
+  });
 
   //disconnect
   client.on("disconnect", () => {
