@@ -10,8 +10,7 @@ const CardView = ({ playerHand, playerState, currentPlayer }) => {
   const handleOnClick = (e) => {
     e.preventDefault();
 
-    //TODO:add local player state for picking up and discarding to keep playerhand constant sized.
-    if (utils.isCurrentPlayer()) {
+    if (utils.isCurrentPlayer() && playerState == "DISCARD") {
       requestDiscard(playerHand[e.currentTarget.id]);
     }
   };

@@ -43,10 +43,14 @@ export const playerHand = (state = [], action) => {
   }
 };
 
-export const playerState = (state = "NOGO", action) => {
+export const playerState = (state = "PICKUP", action) => {
   switch (action.type) {
     case "UPDATE_PLAYERSTATE":
-      return action.playerState;
+      if (state == "DISCARD") {
+        return "PICKUP";
+      } else {
+        return "DISCARD";
+      }
     default:
       return state;
   }

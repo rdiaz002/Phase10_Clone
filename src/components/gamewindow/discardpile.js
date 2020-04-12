@@ -1,11 +1,18 @@
 import React from "react";
 import PickUpDeck from "./pickupdeck";
+import { requestPickupDiscard } from "../../api";
+import * as utils from "../../utils";
+const DiscardPile = ({ discardPile, playerState }) => {
+  const handleOnClick = (e) => {
+    if (utils.isCurrentPlayer() && playerState == "PICKUP") {
+      requestPickupDiscard();
+    }
+  };
 
-const DiscardPile = ({ discardPile }) => {
   return (
     <div className="Discard">
       <div className="Container">
-        <div className="Card">
+        <div className="Card" onClick={handleOnClick}>
           {discardPile.map((item) => (
             <>
               <h2>{item.type}</h2>
@@ -14,7 +21,7 @@ const DiscardPile = ({ discardPile }) => {
           ))}
         </div>
 
-        <PickUpDeck />
+        <PickUpDeck playerState={playerState} />
       </div>
     </div>
   );

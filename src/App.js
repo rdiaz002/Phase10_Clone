@@ -25,11 +25,15 @@ const App = ({ dispatch, state }) => {
     dispatch(actions.updatePlayerID(id));
   };
 
+  const stateChangeCB = () => {
+    dispatch(actions.updatePlayerState());
+  };
+
   useEffect(() => {
-    setupClient(setGlobalState, setPlayerID);
+    setupClient(setGlobalState, setPlayerID, stateChangeCB);
     setupHand(setGlobalHand);
   }, []);
- 
+
   return (
     <div className="App">
       {state.gameState == "FULL" ? (

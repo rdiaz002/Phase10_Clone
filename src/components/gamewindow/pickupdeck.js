@@ -1,8 +1,11 @@
 import React from "react";
 import { requestPickup } from "../../api";
-const PickUpDeck = () => {
+import * as utils from "../../utils";
+const PickUpDeck = (props) => {
   const handlePickup = () => {
-    requestPickup();
+    if (utils.isCurrentPlayer() && props.playerState == "PICKUP") {
+      requestPickup();
+    }
   };
 
   return (

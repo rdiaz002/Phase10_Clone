@@ -173,6 +173,18 @@ const setupClients = (client) => {
       .cards;
     hand.push(card[0]);
     client.emit("HAND_REQUEST", hand);
+    client.emit("NEXT_STATE");
+  });
+
+  //REQUEST PICKUP FROM DISCARD
+  client.on("PICKUP_DISCARD", () => {
+    var card = discardPile.pop();
+    var hand = playersHands.find((player) => player.id == client.client.id)
+      .cards;
+    hand.push(card);
+    client.emit("HAND_REQUEST", hand);
+    client.emit("NEXT_STATE");
+    UpdateRoomInfo();
   });
 
   //Discard Card
@@ -186,6 +198,7 @@ const setupClients = (client) => {
       discardCard(hand[ind]);
       hand.splice(ind, 1);
       client.emit("HAND_REQUEST", hand);
+      client.emit("NEXT_STATE");
       //TODO:add skip logic
       nextPlayer();
       UpdateRoomInfo();

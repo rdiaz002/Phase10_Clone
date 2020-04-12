@@ -1,12 +1,15 @@
 import openSocket from "socket.io-client";
 export const socket = openSocket(process.env.REACT_APP_SERVER_URL);
 
-export const setupClient = (setGlobalStates, setPlayerID) => {
+export const setupClient = (setGlobalStates, setPlayerID, stateChangeCB) => {
   socket.on("ROOM_INFO", (serverState) => {
     setGlobalStates(serverState);
   });
   socket.on("PLAYER_ID", (id) => {
     setPlayerID(id);
+  });
+  socket.on("NEXT_STATE", () => {
+    stateChangeCB();
   });
 };
 export const setupHand = (setGlobalHand) => {
@@ -18,7 +21,6 @@ export const onSocketConnect = (cb) => {
   socket.on("connect", () => {
     cb(socket.id);
   });
-  console.log(socket.id);
 };
 
 export const setupChat = (cb) => {
@@ -48,6 +50,10 @@ export const requestHand = () => {
 
 export const requestPickup = () => {
   socket.emit("PICKUP_DECK");
+};
+
+export const requestPickupDiscard = () => {
+  socket.emit("PICKUP_DISCARD");
 };
 
 export const requestDiscard = (card) => {
