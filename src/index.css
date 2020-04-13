@@ -56,12 +56,12 @@ code {
 
 .NoGo {
   border: solid;
-  border-width: 2px;
+  border-width: 3px;
   border-color: black;
 }
 
 .Turn {
   border: solid;
-  border-width: 2px;
+  border-width: 3px;
   border-color: darkgreen;
 }

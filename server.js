@@ -177,9 +177,13 @@ const setupClients = (client) => {
   });
 
   //REQUEST PICKUP FROM DISCAR
-  //TODO: add logic to avoid picking up skip card.
+  //TODO: setup server-client messaging to advise players.
   client.on("PICKUP_DISCARD", () => {
+    if (discardPile[discardPile.length-1].type == "Skip") {
+      return;
+    }
     var card = discardPile.pop();
+    
     var hand = playersHands.find((player) => player.id == client.client.id)
       .cards;
     hand.push(card);
@@ -200,7 +204,6 @@ const setupClients = (client) => {
       hand.splice(ind, 1);
       client.emit("HAND_REQUEST", hand);
       client.emit("NEXT_STATE");
-      
 
       if (card.type == "Skip") {
         nextPlayer(2);
