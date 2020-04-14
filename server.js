@@ -274,6 +274,8 @@ const createPlayerObject = (clientid, STATE = "NOT_READY") => ({
   name: "",
   id: clientid,
   STATE,
+  phase:0,
+  phaseStacks:[]
 });
 
 const createPlayerHand = (clientid) => ({

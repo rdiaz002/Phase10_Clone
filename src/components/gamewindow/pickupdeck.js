@@ -9,7 +9,7 @@ const PickUpDeck = (props) => {
   };
 
   return (
-    <div className="Card" onClick={handlePickup}>
+    <div className="Deck" onClick={handlePickup}>
       <h1>DECK</h1>
     </div>
   );

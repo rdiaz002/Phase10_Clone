@@ -25,8 +25,8 @@ const Chat = ({dispatch, chatLog}) => {
     currentMsg = e.target.value
   }
   return (
-    <div style={{position:'absolute',bottom:10,right:0}}>
-    <div style={{height:"100px",overflow:"auto"}} id="chatwindowdiv">
+    <div className="Chat" >
+    <div className="ChatWindow"  id="chatwindowdiv">
       {chatLog.map(value => {
         return <h2>{value}</h2>;
       })}
