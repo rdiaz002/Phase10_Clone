@@ -6,6 +6,149 @@ const io = require("socket.io")();
  * TODO: add logic for players disconnecting in middle of game.
  * TODO: change currentPlayer to an index for easier search.
  */
+
+var DEFAULT_PHASES = [
+  {
+    desc: "Set of 3, set of 3",
+    patterns: [
+      { check: setOf, size: 3 },
+      { check: setOf, size: 3 },
+    ],
+  },
+  {
+    desc: "Set of 3, Run of 4",
+    patterns: [
+      { check: setOf, size: 3 },
+      { check: runOf, size: 4 },
+    ], 
+  },
+  {
+    desc: "Set of 4, Run of 4",
+    patterns: [
+      { check: setOf, size: 4 },
+      { check: runOf, size: 4 },
+    ], 
+  },
+  {
+    desc: "Run of 7",
+    patterns: [
+      { check: runOf, size: 7 },
+    ], 
+  },
+  {
+    desc: "Run of 8",
+    patterns: [
+      { check: runOf, size: 8},
+    ], 
+  },
+  {
+    desc: "Run of 9",
+    patterns: [
+      { check: runOf, size: 9},
+    ], 
+  },
+  {
+    desc: "Set of 4, Set of 4",
+    patterns: [
+      { check: setOf, size: 4 },
+      { check: setOf, size: 4 },
+    ], 
+  },
+  {
+    desc: "Set of 3, Run of 4",
+    patterns: [
+      { check: setOf, size: 3 },
+      { check: runOf, size: 4 },
+    ], 
+  },
+  {
+    desc: "Set of 5, Set of 2",
+    patterns: [
+      { check: setOf, size: 5 },
+      { check: setOf, size: 2 },
+    ], 
+  },
+  {
+    desc: "Set of 5, Set of 3",
+    patterns: [
+      { check: setOf, size: 5 },
+      { check: setOf, size: 3 },
+    ], 
+  }
+];
+
+const setOf = (cards = [], size) => {
+  if (cards.length < size) {
+    return false;
+  }
+  var initial;
+  var cond = true;
+
+  cards.forEach((card) => {
+    if (card.type == "Wild") {
+      cond = cond && true;
+      return;
+    } else if (card.type == "Skip") {
+      cond = cond && false;
+      return;
+    }
+
+    if (initial == null) {
+      initial = card;
+      cond = cond && true;
+      console.log("init", initial, cond);
+    } else if (initial.number == card.number) {
+      cond = cond && true;
+      console.log("match", initial, cond);
+    } else {
+      cond = cond && false;
+      console.log("mismatch", initial, cond);
+    }
+  });
+
+  return cond;
+};
+
+const runOf = (cards = [], size) => {
+  if (cards.length < size) {
+    return false;
+  }
+  var initial;
+  var cond = true;
+
+  cards.forEach((card) => {
+    if (initial == null) {
+      if (card.type == "Wild") {
+        cond = cond && true;
+        return;
+      } else if (card.type == "Skip") {
+        cond = cond && false;
+        return;
+      } else {
+        initial = parseInt(card.number);
+        cond = cond && true;
+      }
+    } else {
+      if (card.type == "Wild") {
+        initial++;
+        cond = cond && true;
+      } else if (card.type == "Skip") {
+        cond = cond && false;
+        return;
+      } else {
+        var val = parseInt(card.number);
+        if (val == initial + 1) {
+          cond = cond && true;
+          initial = val;
+        } else {
+          cond = cond && false;
+        }
+      }
+    }
+  });
+  return cond;
+};
+
 var DEFAULT_DECK = [
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -179,11 +322,11 @@ const setupClients = (client) => {
   //REQUEST PICKUP FROM DISCAR
   //TODO: setup server-client messaging to advise players.
   client.on("PICKUP_DISCARD", () => {
-    if (discardPile[discardPile.length-1].type == "Skip") {
+    if (discardPile[discardPile.length - 1].type == "Skip") {
       return;
     }
     var card = discardPile.pop();
-    
+
     var hand = playersHands.find((player) => player.id == client.client.id)
       .cards;
     hand.push(card);
@@ -274,8 +417,8 @@ const createPlayerObject = (clientid, STATE = "NOT_READY") => ({
   name: "",
   id: clientid,
   STATE,
-  phase:0,
-  phaseStacks:[]
+  phase: 0,
+  phaseStacks: [],
 });
 
 const createPlayerHand = (clientid) => ({
@@ -283,5 +426,15 @@ const createPlayerHand = (clientid) => ({
   cards: [],
 });
 
-const port = 13337;
-io.listen(port);
+var fakeDeck = [
+  { type: "Blue", number: "2" },
+  { type: "Wild", number: "1" },
+  { type: "Red", number: "3" },
+  { type: "Red", number: "5" },
+  { type: "Red", number: "6" },
+];
+
+console.log(runOf(fakeDeck, 3));
+
+// const port = 13337;
+// io.listen(port);

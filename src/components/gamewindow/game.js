@@ -3,7 +3,8 @@ import Menu from "./menu";
 import CardView from "../../containers/cardview";
 import { store } from "../../store";
 import DiscardPile from "../../containers/discardpile";
-import PickUpDeck from "./pickupdeck"
+import PlayerStacks from '../../containers/stacks'
+
 const Game = () => {
   const state = store.getState();
 
@@ -11,6 +12,7 @@ const Game = () => {
     <>
       {state.gameState == "Running" ? (
         <>
+          <PlayerStacks/>
           <DiscardPile />
           <CardView />
         </>

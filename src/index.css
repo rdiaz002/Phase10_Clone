@@ -119,3 +119,9 @@ code {
   height:100px;
   overflow:auto;
 }
+
+.StacksView{
+  display: flex;
+  justify-content: space-evenly;
+
+}
