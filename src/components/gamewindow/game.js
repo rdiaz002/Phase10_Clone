@@ -3,7 +3,7 @@ import Menu from "./menu";
 import CardView from "../../containers/cardview";
 import { store } from "../../store";
 import DiscardPile from "../../containers/discardpile";
-import PlayerStacks from '../../containers/stacks'
+import PlayerStacks from "../../containers/stacks";
 
 const Game = () => {
   const state = store.getState();
@@ -12,7 +12,7 @@ const Game = () => {
     <>
       {state.gameState == "Running" ? (
         <>
-          <PlayerStacks/>
+          <PlayerStacks />
           <DiscardPile />
           <CardView />
         </>

@@ -1,11 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { requestHand, requestDiscard } from "../../api";
 import * as utils from "../../utils";
+import Submission from "./submissionView";
+
+//TODO: Add default phases to passed in states.
+//TODO: implement logic to place cards on others stacks.
 
 const CardView = ({ playerHand, playerState, currentPlayer }) => {
+  const [showSubmit, setShowSubmit] = useState(false);
+
   useEffect(() => {
     requestHand();
   }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowSubmit(!showSubmit);
+  };
 
   const handleOnClick = (e) => {
     e.preventDefault();
@@ -14,23 +25,36 @@ const CardView = ({ playerHand, playerState, currentPlayer }) => {
       requestDiscard(playerHand[e.currentTarget.id]);
     }
   };
-
-  //TODO:Create Card Look in CSS
   return (
-    <div className="CardView">
-      <div
-        className={
-          utils.isCurrentPlayer() ? "Container Turn" : "Container NoGo"
-        }
-      >
-        {playerHand.map((card, index) => (
-          <div className="Card" key={index} id={index} onClick={handleOnClick}>
-            <h2>{card.type}</h2>
-            <h1>{card.number}</h1>
-          </div>
-        ))}
+    <>
+      <div className="CardView">
+        <div
+          className={
+            utils.isCurrentPlayer() ? "Container Turn" : "Container NoGo"
+          }
+        >
+          {playerHand.map((card, index) => (
+            <div
+              className="Card"
+              key={index}
+              id={index}
+              onClick={handleOnClick}
+            >
+              <h2>{card.type}</h2>
+              <h1>{card.number}</h1>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+      {showSubmit ? (
+        <>
+          <Submission playerHand={playerHand} onSubmit={handleSubmit} />
+        </>
+      ) : null}
+      <button onClick={handleSubmit} hidden={!utils.isCurrentPlayer()}>
+        Submit Phases
+      </button>
+    </>
   );
 };
 

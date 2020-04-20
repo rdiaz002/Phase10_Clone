@@ -8,7 +8,7 @@ import {
   playerHand,
   playerState,
 } from "./playerinfo";
-import { gameState, currentPlayer, discardPile } from "./gamestate";
+import { gameState, currentPlayer, discardPile, phases } from "./gamestate";
 
 export default combineReducers({
   playerName,
@@ -21,4 +21,5 @@ export default combineReducers({
   playerHand,
   currentPlayer,
   discardPile,
+  phases
 });

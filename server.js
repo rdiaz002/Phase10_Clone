@@ -1,81 +1,10 @@
 const io = require("socket.io")();
 /**
- * TODO: add skip logic
  * TODO: add phase patterns and checks
  * TODO: add winning conditions and ending game logic.
  * TODO: add logic for players disconnecting in middle of game.
  * TODO: change currentPlayer to an index for easier search.
  */
-
-var DEFAULT_PHASES = [
-  {
-    desc: "Set of 3, set of 3",
-    patterns: [
-      { check: setOf, size: 3 },
-      { check: setOf, size: 3 },
-    ],
-  },
-  {
-    desc: "Set of 3, Run of 4",
-    patterns: [
-      { check: setOf, size: 3 },
-      { check: runOf, size: 4 },
-    ], 
-  },
-  {
-    desc: "Set of 4, Run of 4",
-    patterns: [
-      { check: setOf, size: 4 },
-      { check: runOf, size: 4 },
-    ], 
-  },
-  {
-    desc: "Run of 7",
-    patterns: [
-      { check: runOf, size: 7 },
-    ], 
-  },
-  {
-    desc: "Run of 8",
-    patterns: [
-      { check: runOf, size: 8},
-    ], 
-  },
-  {
-    desc: "Run of 9",
-    patterns: [
-      { check: runOf, size: 9},
-    ], 
-  },
-  {
-    desc: "Set of 4, Set of 4",
-    patterns: [
-      { check: setOf, size: 4 },
-      { check: setOf, size: 4 },
-    ], 
-  },
-  {
-    desc: "Set of 3, Run of 4",
-    patterns: [
-      { check: setOf, size: 3 },
-      { check: runOf, size: 4 },
-    ], 
-  },
-  {
-    desc: "Set of 5, Set of 2",
-    patterns: [
-      { check: setOf, size: 5 },
-      { check: setOf, size: 2 },
-    ], 
-  },
-  {
-    desc: "Set of 5, Set of 3",
-    patterns: [
-      { check: setOf, size: 5 },
-      { check: setOf, size: 3 },
-    ], 
-  }
-];
 
 const setOf = (cards = [], size) => {
   if (cards.length < size) {
@@ -149,6 +78,78 @@ const runOf = (cards = [], size) => {
   return cond;
 };
 
+var DEFAULT_PHASES = [
+  {
+    desc: "Set of 3, set of 3",
+    patterns: [
+      { check: setOf, size: 3 },
+      { check: setOf, size: 3 },
+    ],
+  },
+  {
+    desc: "Set of 3, Run of 4",
+    patterns: [
+      { check: setOf, size: 3 },
+      { check: runOf, size: 4 },
+    ], 
+  },
+  {
+    desc: "Set of 4, Run of 4",
+    patterns: [
+      { check: setOf, size: 4 },
+      { check: runOf, size: 4 },
+    ], 
+  },
+  {
+    desc: "Run of 7",
+    patterns: [
+      { check: runOf, size: 7 },
+    ], 
+  },
+  {
+    desc: "Run of 8",
+    patterns: [
+      { check: runOf, size: 8},
+    ], 
+  },
+  {
+    desc: "Run of 9",
+    patterns: [
+      { check: runOf, size: 9},
+    ], 
+  },
+  {
+    desc: "Set of 4, Set of 4",
+    patterns: [
+      { check: setOf, size: 4 },
+      { check: setOf, size: 4 },
+    ], 
+  },
+  {
+    desc: "Set of 3, Run of 4",
+    patterns: [
+      { check: setOf, size: 3 },
+      { check: runOf, size: 4 },
+    ], 
+  },
+  {
+    desc: "Set of 5, Set of 2",
+    patterns: [
+      { check: setOf, size: 5 },
+      { check: setOf, size: 2 },
+    ], 
+  },
+  {
+    desc: "Set of 5, Set of 3",
+    patterns: [
+      { check: setOf, size: 5 },
+      { check: setOf, size: 3 },
+    ], 
+  }
+];
+
+
+
 var DEFAULT_DECK = [
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -176,6 +177,7 @@ const UpdateRoomInfo = () => {
     gameState,
     currentPlayer,
     discardPile,
+    phases:DEFAULT_PHASES,
   });
   //where i will pass all needed info that will be updated
 };
@@ -434,7 +436,7 @@ var fakeDeck = [
   { type: "Red", number: "6" },
 ];
 
-console.log(runOf(fakeDeck, 3));
+//console.log(runOf(fakeDeck, 3));
 
-// const port = 13337;
-// io.listen(port);
+const port = 13337;
+io.listen(port);

@@ -15,8 +15,8 @@ const App = ({ dispatch, state }) => {
     dispatch(actions.updateGameState(serverState.gameState));
     dispatch(actions.updateCurrentPlayer(serverState.currentPlayer));
     dispatch(actions.updateDiscardPile(serverState.discardPile));
+    dispatch(actions.updatePhases(serverState.phases));
   };
-
   const setGlobalHand = (hand) => {
     dispatch(actions.updatePlayerHand(hand));
   };
