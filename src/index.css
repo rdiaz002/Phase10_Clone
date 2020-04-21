@@ -1,4 +1,4 @@
-#root{
+#root {
   height: 100vh;
 }
 body {
@@ -45,8 +45,6 @@ code {
   flex: 1;
 }
 
-
-
 .Container {
   width: 80%;
   min-height: 10%;
@@ -61,19 +59,19 @@ code {
   flex: 1;
 }
 
-.Discard{
-  width:fit-content;
-  margin:auto;
-  justify-content: center ;
+.Discard {
+  width: fit-content;
+  margin: auto;
+  justify-content: center;
   text-align: center;
 }
 
 .DiscardContainer {
-  width:fit-content;
+  width: fit-content;
   display: flex;
 }
 
-.DiscardCard{
+.DiscardCard {
   width: 130px;
   height: 150px;
   margin: auto;
@@ -82,22 +80,22 @@ code {
   border-radius: 5px;
 }
 
-.DiscardContainer .DiscardCard:nth-child(2){
+.DiscardContainer .DiscardCard:nth-child(2) {
   position: absolute;
-  width:130px;
+  width: 130px;
   background-color: white;
   z-index: 100;
 }
 
-.DiscardContainer .Deck{
+.DiscardContainer .Deck {
   width: auto;
   height: 140px;
-  margin:10px;
-  padding:10px;
+  margin: 10px;
+  padding: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   border-radius: 5px;
-  flex:1;
+  flex: 1;
 }
 
 .NoGo {
@@ -112,25 +110,24 @@ code {
   border-color: darkgreen;
 }
 
-.Chat{
+.Chat {
   position: relative;
-  bottom:0;
-  right:0;
+  bottom: 0;
+  right: 0;
 }
 
-.ChatWindow{
+.ChatWindow {
   max-height: 100px;
-  height:100px;
-  overflow:auto;
+  height: 100px;
+  overflow: auto;
 }
 
-.StacksView{
+.StacksView {
   display: flex;
   justify-content: space-evenly;
-
 }
 
-.SubmissionView{
+.SubmissionView {
   position: fixed;
   top: 0;
   left: 0;
@@ -140,7 +137,7 @@ code {
   z-index: 100;
 }
 
-.SubContainer{
+.SubContainer {
   position: relative;
   width: 60%;
   min-height: 5%;
@@ -150,13 +147,12 @@ code {
   background-color: gray;
 }
 
-.SubContainer .Card{
-  min-height:6vh;
-  min-width:7vw;
+.SubContainer .Card {
+  min-height: 6vh;
+  min-width: 7vw;
   width: 15vw;
-  font-size:1.5vw;
+  font-size: 1.5vw;
 }
-
 
 .SelectContainer {
   position: relative;
@@ -168,31 +164,29 @@ code {
   background-color: gray;
 }
 
-.SelectContainer .Card{
-  min-height:6vh;
-  min-width:7vw;
+.SelectContainer .Card {
+  min-height: 6vh;
+  min-width: 7vw;
   width: 15vw;
-  font-size:1.5vw;
+  font-size: 1.5vw;
 }
 
-.View{
+.View {
   position: sticky;
-
 }
 
-.SelectView{
+.SelectView {
   display: flex;
-  
 }
 
-.SelectView button{
+.SelectView button {
   min-height: fit-content;
-  height:7vh;
+  height: 7vh;
   width: 10vw;
-  margin:10px;
+  margin: 10px;
 }
 
-.SelectView .ButtonDiv{
+.SelectView .ButtonDiv {
   display: flex;
   flex-direction: column;
   margin: auto;

@@ -48,7 +48,11 @@ const CardView = ({ playerHand, playerState, phases }) => {
       </div>
       {showSubmit ? (
         <>
-          <Submission playerHand={[...playerHand]} onSubmit={handleSubmit} currentPhases={phases[currentPhase]}/>
+          <Submission
+            playerHand={[...playerHand]}
+            onSubmit={handleSubmit}
+            currentPhases={phases[currentPhase]}
+          />
         </>
       ) : null}
       <button onClick={handleSubmit} hidden={!utils.isCurrentPlayer()}>

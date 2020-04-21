@@ -5,7 +5,7 @@ const mapStateToProps = (state) => ({
   playerHand: state.playerHand,
   playerState: state.playerState,
   currentPlayer: state.currentPlayer,
-  phases:state.phases,
+  phases: state.phases,
 });
 
 export default connect(mapStateToProps)(CardView);
