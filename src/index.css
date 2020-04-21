@@ -40,6 +40,9 @@ code {
   transition: 0.3s;
   border-radius: 5px;
   background-color: white;
+  margin: 10px;
+  padding: 10px;
+  flex: 1;
 }
 
 
@@ -138,24 +141,41 @@ code {
 }
 
 .SubContainer{
-  position: absolute;
-  top:50%;
-  left:50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  min-height: 10%;
-  margin: 0 auto;
+  position: relative;
+  width: 60%;
+  min-height: 5%;
+  margin: 10px auto;
   display: flex;
   flex-wrap: wrap;
   background-color: gray;
 }
 
 .SubContainer .Card{
-  margin: 10px;
-  padding: 10px;
-  flex: 1;
+  min-height:6vh;
+  min-width:7vw;
+  width: 15vw;
+  font-size:1.5vw;
+}
+
+
+.SelectContainer {
+  position: relative;
+  width: 80%;
+  min-height: 10%;
+  margin: 50px auto;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: gray;
+}
+
+.SelectContainer .Card{
+  min-height:6vh;
+  min-width:7vw;
+  width: 15vw;
+  font-size:1.5vw;
 }
 
 .View{
   position: sticky;
+
 }
