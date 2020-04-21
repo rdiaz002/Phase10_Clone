@@ -13,8 +13,8 @@ const DiscardPile = ({ discardPile, playerState }) => {
     <div className="Discard">
       <div className="DiscardContainer">
         
-          {discardPile.map((item) => (
-            <div className="DiscardCard" onClick={handleOnClick}>
+          {discardPile.map((item,index) => (
+            <div className="DiscardCard" key={index} onClick={handleOnClick}>
               <h2>{item.type}</h2>
               <h2>{item.number}</h2>
             </div>

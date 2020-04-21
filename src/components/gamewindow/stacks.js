@@ -2,11 +2,10 @@ import React from "react";
 
 //TODO: replace stacks placeholder with cards. 
 const PlayerStacks = ({ playerList }) => {
-  console.log(playerList);
   return (
     <div className="StacksView">
-      {playerList.map((player) => (
-        <div className="StackContainer">
+      {playerList.map((player,index) => (
+        <div key={index} className="StackContainer">
           <div>
             <h2>{player.name}</h2>
             <h4>phase: {player.phase}</h4>

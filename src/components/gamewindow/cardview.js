@@ -6,9 +6,9 @@ import Submission from "./submissionView";
 //TODO: Add default phases to passed in states.
 //TODO: implement logic to place cards on others stacks.
 
-const CardView = ({ playerHand, playerState, currentPlayer }) => {
+const CardView = ({ playerHand, playerState, phases }) => {
   const [showSubmit, setShowSubmit] = useState(false);
-
+  const currentPhase = utils.getCurrentPhase();
   useEffect(() => {
     requestHand();
   }, []);
@@ -48,7 +48,7 @@ const CardView = ({ playerHand, playerState, currentPlayer }) => {
       </div>
       {showSubmit ? (
         <>
-          <Submission playerHand={[...playerHand]} onSubmit={handleSubmit} />
+          <Submission playerHand={[...playerHand]} onSubmit={handleSubmit} currentPhases={phases[currentPhase]}/>
         </>
       ) : null}
       <button onClick={handleSubmit} hidden={!utils.isCurrentPlayer()}>

@@ -5,6 +5,12 @@ export const isHost = () => {
   return state.hostID == state.playerID;
 };
 
+export const getCurrentPhase= ()=>{
+  const state=store.getState();
+  const playerPhase = state.playerList.find((player)=>(player.id==state.playerID)).phase;
+  return playerPhase;
+}
+
 export const isCurrentPlayer = () => {
   const state = store.getState();
   return state.currentPlayer == state.playerID;

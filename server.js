@@ -80,75 +80,57 @@ const runOf = (cards = [], size) => {
 
 var DEFAULT_PHASES = [
   {
-    desc: "Set of 3, set of 3",
     patterns: [
-      { check: setOf, size: 3 },
-      { check: setOf, size: 3 },
+      { check: setOf, size: 3, desc: "Set of" },
+      { check: setOf, size: 3, desc: "Set of" },
     ],
   },
   {
-    desc: "Set of 3, Run of 4",
     patterns: [
-      { check: setOf, size: 3 },
-      { check: runOf, size: 4 },
-    ], 
+      { check: setOf, size: 3, desc: "Set of" },
+      { check: runOf, size: 4, desc: "Run of" },
+    ],
   },
   {
-    desc: "Set of 4, Run of 4",
     patterns: [
-      { check: setOf, size: 4 },
-      { check: runOf, size: 4 },
-    ], 
+      { check: setOf, size: 4, desc: "Set of" },
+      { check: runOf, size: 4, desc: "Run of" },
+    ],
   },
   {
-    desc: "Run of 7",
-    patterns: [
-      { check: runOf, size: 7 },
-    ], 
+    patterns: [{ check: runOf, size: 7, desc: "Run of" }],
   },
   {
-    desc: "Run of 8",
-    patterns: [
-      { check: runOf, size: 8},
-    ], 
+    patterns: [{ check: runOf, size: 8, desc: "Run of" }],
   },
   {
-    desc: "Run of 9",
-    patterns: [
-      { check: runOf, size: 9},
-    ], 
+    patterns: [{ check: runOf, size: 9, desc: "Run of" }],
   },
   {
-    desc: "Set of 4, Set of 4",
     patterns: [
-      { check: setOf, size: 4 },
-      { check: setOf, size: 4 },
-    ], 
+      { check: setOf, size: 4, desc: "Set of" },
+      { check: setOf, size: 4, desc: "Set of" },
+    ],
   },
   {
-    desc: "Set of 3, Run of 4",
     patterns: [
-      { check: setOf, size: 3 },
-      { check: runOf, size: 4 },
-    ], 
+      { check: setOf, size: 3, desc: "Set of" },
+      { check: runOf, size: 4, desc: "Run of" },
+    ],
   },
   {
-    desc: "Set of 5, Set of 2",
     patterns: [
-      { check: setOf, size: 5 },
-      { check: setOf, size: 2 },
-    ], 
+      { check: setOf, size: 5, desc: "Set of" },
+      { check: setOf, size: 2, desc: "Set of" },
+    ],
   },
   {
-    desc: "Set of 5, Set of 3",
     patterns: [
-      { check: setOf, size: 5 },
-      { check: setOf, size: 3 },
-    ], 
-  }
+      { check: setOf, size: 5, desc: "Set of" },
+      { check: setOf, size: 3, desc: "Set of" },
+    ],
+  },
 ];
-
-
 
 var DEFAULT_DECK = [
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -177,7 +159,7 @@ const UpdateRoomInfo = () => {
     gameState,
     currentPlayer,
     discardPile,
-    phases:DEFAULT_PHASES,
+    phases: DEFAULT_PHASES,
   });
   //where i will pass all needed info that will be updated
 };

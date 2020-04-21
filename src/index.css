@@ -179,3 +179,21 @@ code {
   position: sticky;
 
 }
+
+.SelectView{
+  display: flex;
+  
+}
+
+.SelectView button{
+  min-height: fit-content;
+  height:7vh;
+  width: 10vw;
+  margin:10px;
+}
+
+.SelectView .ButtonDiv{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
