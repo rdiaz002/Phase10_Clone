@@ -81,53 +81,53 @@ const runOf = (cards = [], size) => {
 var DEFAULT_PHASES = [
   {
     patterns: [
-      { check: setOf, size: 3, desc: "Set of" },
-      { check: setOf, size: 3, desc: "Set of" },
+      { check: setOf, size: 3, desc: "Set of",funcID:0 },
+      { check: setOf, size: 3, desc: "Set of",funcID:0 },
     ],
   },
   {
     patterns: [
-      { check: setOf, size: 3, desc: "Set of" },
-      { check: runOf, size: 4, desc: "Run of" },
+      { check: setOf, size: 3, desc: "Set of",funcID:0 },
+      { check: runOf, size: 4, desc: "Run of",funcID:1 },
     ],
   },
   {
     patterns: [
-      { check: setOf, size: 4, desc: "Set of" },
-      { check: runOf, size: 4, desc: "Run of" },
+      { check: setOf, size: 4, desc: "Set of",funcID:0 },
+      { check: runOf, size: 4, desc: "Run of",funcID:1 },
     ],
   },
   {
-    patterns: [{ check: runOf, size: 7, desc: "Run of" }],
+    patterns: [{ check: runOf, size: 7, desc: "Run of",funcID:1 }],
   },
   {
-    patterns: [{ check: runOf, size: 8, desc: "Run of" }],
+    patterns: [{ check: runOf, size: 8, desc: "Run of",funcID:1 }],
   },
   {
-    patterns: [{ check: runOf, size: 9, desc: "Run of" }],
-  },
-  {
-    patterns: [
-      { check: setOf, size: 4, desc: "Set of" },
-      { check: setOf, size: 4, desc: "Set of" },
-    ],
+    patterns: [{ check: runOf, size: 9, desc: "Run of",funcID:1 }],
   },
   {
     patterns: [
-      { check: setOf, size: 3, desc: "Set of" },
-      { check: runOf, size: 4, desc: "Run of" },
+      { check: setOf, size: 4, desc: "Set of",funcID:0 },
+      { check: setOf, size: 4, desc: "Set of",funcID:0 },
     ],
   },
   {
     patterns: [
-      { check: setOf, size: 5, desc: "Set of" },
-      { check: setOf, size: 2, desc: "Set of" },
+      { check: setOf, size: 3, desc: "Set of",funcID:0 },
+      { check: runOf, size: 4, desc: "Run of",funcID:1 },
     ],
   },
   {
     patterns: [
-      { check: setOf, size: 5, desc: "Set of" },
-      { check: setOf, size: 3, desc: "Set of" },
+      { check: setOf, size: 5, desc: "Set of",funcID:0 },
+      { check: setOf, size: 2, desc: "Set of",funcID:0 },
+    ],
+  },
+  {
+    patterns: [
+      { check: setOf, size: 5, desc: "Set of",funcID:0 },
+      { check: setOf, size: 3, desc: "Set of",funcID:0 },
     ],
   },
 ];
