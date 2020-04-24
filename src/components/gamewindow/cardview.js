@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { requestHand, requestDiscard } from "../../api";
 import * as utils from "../../utils";
-import Submission from "./submissionView";
+import Submission from "./submissionView/submissionView";
 
 //TODO: Add default phases to passed in states.
 //TODO: implement logic to place cards on others stacks.

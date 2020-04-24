@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import * as utils from "../../utils";
+import * as utils from "../../../utils";
+import HoldView from "./holdView";
 
 //TODO: Add component to display correct stacks ready for phase completion.
 //TODO: Add complete phase button for final stack submission.
@@ -29,10 +30,13 @@ const Submission = (props) => {
   const handleCheck = (index, funcid, minsize, e) => {
     e.preventDefault();
     if (utils.checks[funcid](subDeck, minsize)) {
-      if(holdDeck[index].length>0){
-        holdDeck[index].forEach((card)=>{props.playerHand.push(card)});
-        holdDeck[index]=[];
-      }else{
+      if (holdDeck[index].length > 0) {
+        holdDeck[index].forEach((card) => {
+          props.playerHand.push(card);
+        });
+        holdDeck[index] = subDeck;
+        console.log(holdDeck);
+      } else {
         holdDeck[index] = [...subDeck];
       }
       setSubDeck([]);
@@ -88,6 +92,7 @@ const Submission = (props) => {
             </div>
           ))}
         </div>
+        <HoldView holdDeck={holdDeck} />
       </div>
     </>
   );

@@ -49,13 +49,10 @@ export const checks = [
       if (initial == null) {
         initial = card;
         cond = cond && true;
-        console.log("init", initial, cond);
       } else if (initial.number == card.number) {
         cond = cond && true;
-        console.log("match", initial, cond);
       } else {
         cond = cond && false;
-        console.log("mismatch", initial, cond);
       }
     });
 
