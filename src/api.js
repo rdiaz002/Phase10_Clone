@@ -59,3 +59,7 @@ export const requestPickupDiscard = () => {
 export const requestDiscard = (card) => {
   socket.emit("DISCARD", card);
 };
+
+export const submitPhase = (stacks) => {
+  socket.emit("PHASE_COMPLETE", stacks);
+};

@@ -196,3 +196,19 @@ code {
 .Card h2:first-child {
   margin-top: 0;
 }
+
+.StackContainer {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  margin: 5px;
+  border-radius: 10px;
+  background-color: gray;
+}
+
+.StackContainer .Card {
+  font-size: 70%;
+  width: 70%;
+  margin: 10px;
+  padding: 10px;
+}

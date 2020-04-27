@@ -4,6 +4,7 @@ const io = require("socket.io")();
  * TODO: add winning conditions and ending game logic.
  * TODO: add logic for players disconnecting in middle of game.
  * TODO: change currentPlayer to an index for easier search.
+ * TODO: fix random generator and find a better way to choose a card.
  */
 
 const setOf = (cards = [], size) => {
@@ -164,6 +165,14 @@ const UpdateRoomInfo = () => {
   //where i will pass all needed info that will be updated
 };
 
+//reset players for new game.
+const resetPlayerInfo = () => {
+  playerList.forEach((player) => {
+    player.phase = 0;
+    player.phaseStacks = [];
+  });
+};
+
 const discardCard = (card) => {
   if (discardPile.length > 1) {
     returnToDeck([discardPile[0]]);
@@ -266,6 +275,7 @@ const setupClients = (client) => {
       playersHands = [];
       deck = [...DEFAULT_DECK];
       deckSize = 108;
+      resetPlayerInfo();
       currentPlayer = chooseRandomPlayer();
       discardPile = createRandomHand(1);
       while (discardPile[0].type == "Skip") {
@@ -340,6 +350,30 @@ const setupClients = (client) => {
 
       UpdateRoomInfo();
     }
+  });
+
+  client.on("PHASE_COMPLETE", (stacks) => {
+    var playerHand = playersHands.find(
+      (player) => player.id == client.client.id
+    ).cards;
+    stacks.forEach((stack) => {
+      var indexs = [];
+      stack.deck.forEach((card) => {
+        for (var i = 0; i < playerHand.length; i++) {
+          var cType = playerHand[i].type;
+          var cNum = playerHand[i].number;
+          if (card.type == cType && card.number == cNum) {
+            playerHand.splice(i, 1);
+            break;
+          }
+        }
+      });
+    });
+    playerList.find(
+      (player) => player.id == client.client.id
+    ).phaseStacks = stacks;
+    client.emit("HAND_REQUEST", playerHand);
+    UpdateRoomInfo();
   });
 
   //disconnect

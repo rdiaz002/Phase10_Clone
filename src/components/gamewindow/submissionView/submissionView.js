@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import * as utils from "../../../utils";
 import HoldView from "./holdView";
+import { submitPhase } from "../../../api";
 
-//TODO: Add component to display correct stacks ready for phase completion.
 //TODO: Add complete phase button for final stack submission.
 
 const Submission = (props) => {
   const [subDeck, setSubDeck] = useState([]);
   const [holdDeck, setHoldDeck] = useState([]);
   useEffect(() => {
-    props.currentPhases.patterns.forEach(() => {
-      holdDeck.push([]);
+    props.currentPhases.patterns.forEach((pattern) => {
+      holdDeck.push({ desc: pattern.desc, funcID: pattern.funcID, deck: [] });
     });
   }, []);
 
@@ -30,14 +30,13 @@ const Submission = (props) => {
   const handleCheck = (index, funcid, minsize, e) => {
     e.preventDefault();
     if (utils.checks[funcid](subDeck, minsize)) {
-      if (holdDeck[index].length > 0) {
-        holdDeck[index].forEach((card) => {
+      if (holdDeck[index].deck.length > 0) {
+        holdDeck[index].deck.forEach((card) => {
           props.playerHand.push(card);
         });
-        holdDeck[index] = subDeck;
-        console.log(holdDeck);
+        holdDeck[index].deck = subDeck;
       } else {
-        holdDeck[index] = [...subDeck];
+        holdDeck[index].deck = [...subDeck];
       }
       setSubDeck([]);
     } else {
@@ -46,6 +45,11 @@ const Submission = (props) => {
       });
       setSubDeck([]);
     }
+  };
+
+  const handlePhaseSubmit = (e) => {
+    submitPhase(holdDeck);
+    props.onSubmit(e);
   };
 
   return (
@@ -93,6 +97,7 @@ const Submission = (props) => {
           ))}
         </div>
         <HoldView holdDeck={holdDeck} />
+        <button onClick={handlePhaseSubmit}>Submit Phase</button>
       </div>
     </>
   );
