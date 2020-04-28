@@ -3,7 +3,6 @@ import StackSubmission from "./stackSubmission";
 
 //TODO: replace stacks placeholder with cards.
 const PlayerStacks = ({ playerList }) => {
-  console.log(playerList);
   const [showStkSub, setStkSub] = useState(false);
   const [bundle, setBundle] = useState({});
 

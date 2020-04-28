@@ -35,6 +35,11 @@ export const getPlayerHand = () => {
   return state.playerHand;
 };
 
+export const getPlayerList = () => {
+  const state = store.getState();
+  return state.playerList;
+};
+
 export const checks = [
   (cards = [], size) => {
     if (cards.length < size) {

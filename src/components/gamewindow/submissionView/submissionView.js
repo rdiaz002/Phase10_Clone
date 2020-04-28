@@ -3,26 +3,26 @@ import * as utils from "../../../utils";
 import HoldView from "./holdView";
 import { submitPhase } from "../../../api";
 
-//TODO: Add complete phase button for final stack submission.
-
 const Submission = (props) => {
   const [subDeck, setSubDeck] = useState([]);
   const [holdDeck, setHoldDeck] = useState([]);
+  const [playerHand, setPlayerHand] = useState([]);
   useEffect(() => {
     props.currentPhases.patterns.forEach((pattern) => {
       holdDeck.push({ desc: pattern.desc, funcID: pattern.funcID, deck: [] });
     });
+    setPlayerHand(utils.getPlayerHand());
   }, []);
 
   const handleCardSubmit = (e) => {
     e.preventDefault();
-    setSubDeck([...subDeck, props.playerHand[e.currentTarget.id]]);
-    props.playerHand.splice(e.currentTarget.id, 1);
+    setSubDeck([...subDeck, playerHand[e.currentTarget.id]]);
+    playerHand.splice(e.currentTarget.id, 1);
   };
 
   const returnCard = (e) => {
     e.preventDefault();
-    props.playerHand.push(subDeck[e.currentTarget.id]);
+    playerHand.push(subDeck[e.currentTarget.id]);
     subDeck.splice(e.currentTarget.id, 1);
     setSubDeck([...subDeck]);
   };
@@ -32,7 +32,7 @@ const Submission = (props) => {
     if (utils.checks[funcid](subDeck, minsize)) {
       if (holdDeck[index].deck.length > 0) {
         holdDeck[index].deck.forEach((card) => {
-          props.playerHand.push(card);
+          playerHand.push(card);
         });
         holdDeck[index].deck = subDeck;
       } else {
@@ -41,7 +41,7 @@ const Submission = (props) => {
       setSubDeck([]);
     } else {
       subDeck.forEach((card) => {
-        props.playerHand.push(card);
+        playerHand.push(card);
       });
       setSubDeck([]);
     }
@@ -84,7 +84,7 @@ const Submission = (props) => {
           </div>
         </div>
         <div className="SubContainer">
-          {props.playerHand.map((card, index) => (
+          {playerHand.map((card, index) => (
             <div
               className="Card"
               key={index}

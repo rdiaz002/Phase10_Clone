@@ -49,7 +49,6 @@ const CardView = ({ playerHand, playerState, phases }) => {
       {showSubmit ? (
         <>
           <Submission
-            playerHand={[...playerHand]}
             onSubmit={handleSubmit}
             currentPhases={phases[currentPhase]}
           />
