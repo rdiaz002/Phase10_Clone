@@ -84,7 +84,7 @@ code {
   position: absolute;
   width: 130px;
   background-color: white;
-  z-index: 100;
+  z-index: 24;
 }
 
 .DiscardContainer .Deck {

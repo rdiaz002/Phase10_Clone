@@ -63,3 +63,7 @@ export const requestDiscard = (card) => {
 export const submitPhase = (stacks) => {
   socket.emit("PHASE_COMPLETE", stacks);
 };
+
+export const updateStack = (playerID,stackIndx,newStack,newCard)=>{
+  socket.emit("UPDATE_STACK",{playerID,stackIndx,newStack,newCard});
+}

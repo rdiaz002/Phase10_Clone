@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import StackSubmission from "./stackSubmission";
+import { isCurrentPlayer,isPhaseComplete } from "../../../utils";
 
-//TODO: replace stacks placeholder with cards.
 const PlayerStacks = ({ playerList }) => {
   const [showStkSub, setStkSub] = useState(false);
   const [bundle, setBundle] = useState({});
 
-  const handleStackClick = (e, playerID, stackInd) => {
-    var ownerID = playerID;
-    var stack = playerList.find((player) => player.id == playerID).phaseStacks[
-      stackInd
-    ];
-    setStkSub(!showStkSub);
-    setBundle({ ownerID, stack });
+  //TODO:update stack view to show new added card. 
+  const handleStackClick = (e, playerID, stackIndx) => {
+    if (isCurrentPlayer() && isPhaseComplete()) {
+      var ownerID = playerID;
+      var stack = playerList.find((player) => player.id == playerID)
+        .phaseStacks[stackIndx];
+      setStkSub(!showStkSub);
+      setBundle({ ownerID, stack, stackIndx });
+    }
   };
 
   const handleSubmit = () => {
-    setStkSub(!showStkSub);
+      setStkSub(!showStkSub);
   };
   return (
     <div className="StacksView">

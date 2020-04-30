@@ -170,6 +170,7 @@ const resetPlayerInfo = () => {
   playerList.forEach((player) => {
     player.phase = 0;
     player.phaseStacks = [];
+    player.phaseState="INCOMPLETE";
   });
 };
 
@@ -369,10 +370,28 @@ const setupClients = (client) => {
         }
       });
     });
-    playerList.find(
+    var player=playerList.find(
       (player) => player.id == client.client.id
-    ).phaseStacks = stacks;
+    );
+    player.phaseStacks = stacks;
+    player.phaseState = "COMPLETE";
     client.emit("HAND_REQUEST", playerHand);
+    UpdateRoomInfo();
+  });
+
+  //Update Stack
+  //TODO Optional: Add another check to make sure stack is legit.
+  client.on("UPDATE_STACK", (data) => {
+    var player = playerList.find((player) => player.id == data.playerID);
+    player.phaseStacks[data.stackIndx].deck = data.newStack;
+    var clientDeck = playersHands.find((player) => player.id == client.client.id)
+      .cards;
+
+    var indx = clientDeck.findIndex(
+      (card) => card.type == data.newCard.type && card.number == data.newCard.number
+    );
+    clientDeck.splice(indx, 1);
+    client.emit("HAND_REQUEST", clientDeck);
     UpdateRoomInfo();
   });
 
@@ -440,6 +459,7 @@ const createPlayerObject = (clientid, STATE = "NOT_READY") => ({
   STATE,
   phase: 0,
   phaseStacks: [],
+  phaseState:"INCOMPLETE"
 });
 
 const createPlayerHand = (clientid) => ({

@@ -32,13 +32,18 @@ export const arePlayersReady = () => {
 
 export const getPlayerHand = () => {
   const state = store.getState();
-  return state.playerHand;
+  return [...state.playerHand];
 };
 
 export const getPlayerList = () => {
   const state = store.getState();
   return state.playerList;
 };
+
+export const isPhaseComplete=()=>{
+  const state = store.getState();
+  return state.playerList.find((player)=>(player.id==state.playerID)).phaseState =="COMPLETE";
+}
 
 export const checks = [
   (cards = [], size) => {
