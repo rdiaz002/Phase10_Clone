@@ -1,10 +1,12 @@
 const io = require("socket.io")();
+const Deque = require("collections/deque");
+const Random = require("random-js").Random;
+const random = new Random();
 /**
  * TODO: add phase patterns and checks
  * TODO: add winning conditions and ending game logic.
  * TODO: add logic for players disconnecting in middle of game.
  * TODO: change currentPlayer to an index for easier search.
- * TODO: fix random generator and find a better way to choose a card.
  */
 
 const setOf = (cards = [], size) => {
@@ -138,8 +140,8 @@ var DEFAULT_DECK = [
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
   [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-  [8],
-  [4],
+  [0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1],
+  [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1],
 ];
 var COLORS = ["Red", "Green", "Blue", "Yellow", "Wild", "Skip"];
 
@@ -170,7 +172,7 @@ const resetPlayerInfo = () => {
   playerList.forEach((player) => {
     player.phase = 0;
     player.phaseStacks = [];
-    player.phaseState="INCOMPLETE";
+    player.phaseState = "INCOMPLETE";
   });
 };
 
@@ -191,7 +193,11 @@ const nextPlayer = (inc = 1) => {
 };
 
 const getRndInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min)) + min;
+  return random.integer(min, max);
+};
+
+const randomizeDeck = () => {
+  deck = new Deque(createRandomHand(108));
 };
 //Change default_deck structure into array for easier removal and replacement.
 const createRandomHand = (size) => {
@@ -200,21 +206,25 @@ const createRandomHand = (size) => {
     if (deckSize == 0) {
       return hand;
     }
-    var colorNum = getRndInt(0, deck.length);
-    while (
-      !deck[colorNum].some((val) => {
-        return val > 0;
-      })
-    ) {
-      colorNum = getRndInt(0, deck.length);
-    }
-    var cardNum = getRndInt(0, deck[colorNum].length);
+    var colorNum = getRndInt(0, deck.length - 1);
+    var cardNum = getRndInt(0, deck[colorNum].length - 1);
     while (deck[colorNum][cardNum] == 0) {
-      cardNum = getRndInt(0, deck[colorNum].length);
+      colorNum = getRndInt(0, deck.length - 1);
+      cardNum = getRndInt(0, deck[colorNum].length - 1);
     }
-    hand.push({ type: COLORS[colorNum], number: cardNum + 1 });
+    var type = COLORS[colorNum];
+    var number = colorNum > 3 ? 0 : cardNum + 1;
+    hand.push({ type, number });
     deck[colorNum][cardNum]--;
     deckSize--;
+  }
+  return hand;
+};
+
+const dealDeck = (size) => {
+  var hand = [];
+  for (var i = 0; i < size; i++) {
+    hand.push(deck.shift());
   }
   return hand;
 };
@@ -226,31 +236,17 @@ const chooseRandomPlayer = () => {
 };
 
 const returnToDeck = (cards) => {
-  cards.forEach((element) => {
-    var colorIndex;
-    switch (element.type) {
-      case "Red":
-        colorIndex = 0;
-        break;
-      case "Green":
-        colorIndex = 1;
-        break;
-      case "Blue":
-        colorIndex = 2;
-        break;
-      case "Yellow":
-        colorIndex = 3;
-        break;
-      case "Wild":
-        colorIndex = 4;
-        break;
-      case "Skip":
-        colorIndex = 5;
-        break;
-    }
-    deck[colorIndex][element.number - 1]++;
-    deckSize++;
+  cards.forEach((card) => {
+    deck.push(card);
   });
+};
+
+const broadcastNoti = (msg, client = null) => {
+  if (!client) {
+    io.emit("NOTI", msg);
+  } else {
+    client.emit("NOTI", msg);
+  }
 };
 
 const setupClients = (client) => {
@@ -266,6 +262,7 @@ const setupClients = (client) => {
       }
     });
     UpdateRoomInfo();
+    broadcastNoti(name + " has joined the game");
   });
 
   //START GAME
@@ -275,13 +272,14 @@ const setupClients = (client) => {
       gameState = "Running";
       playersHands = [];
       deck = [...DEFAULT_DECK];
+      randomizeDeck();
       deckSize = 108;
       resetPlayerInfo();
       currentPlayer = chooseRandomPlayer();
-      discardPile = createRandomHand(1);
+      discardPile = dealDeck(1);
       while (discardPile[0].type == "Skip") {
         returnToDeck(discardPile);
-        discardPile = createRandomHand(1);
+        discardPile = dealDeck(1);
       }
       UpdateRoomInfo();
     }
@@ -297,16 +295,16 @@ const setupClients = (client) => {
 
   //CREATE HAND
   client.on("CREATE_HAND", () => {
-    var hand = createRandomHand(10);
-    var play = createPlayerHand(client.client.id);
-    play.cards = hand;
-    playersHands.push(play);
+    var hand = dealDeck(10);
+    var player = createPlayerHand(client.client.id);
+    player.cards = hand;
+    playersHands.push(player);
     client.emit("HAND_REQUEST", hand);
   });
 
   //REQUEST PICKUP FROM DECK
   client.on("PICKUP_DECK", () => {
-    var card = createRandomHand(1);
+    var card = dealDeck(1);
     var hand = playersHands.find((player) => player.id == client.client.id)
       .cards;
     hand.push(card[0]);
@@ -370,9 +368,7 @@ const setupClients = (client) => {
         }
       });
     });
-    var player=playerList.find(
-      (player) => player.id == client.client.id
-    );
+    var player = playerList.find((player) => player.id == client.client.id);
     player.phaseStacks = stacks;
     player.phaseState = "COMPLETE";
     client.emit("HAND_REQUEST", playerHand);
@@ -384,11 +380,13 @@ const setupClients = (client) => {
   client.on("UPDATE_STACK", (data) => {
     var player = playerList.find((player) => player.id == data.playerID);
     player.phaseStacks[data.stackIndx].deck = data.newStack;
-    var clientDeck = playersHands.find((player) => player.id == client.client.id)
-      .cards;
+    var clientDeck = playersHands.find(
+      (player) => player.id == client.client.id
+    ).cards;
 
     var indx = clientDeck.findIndex(
-      (card) => card.type == data.newCard.type && card.number == data.newCard.number
+      (card) =>
+        card.type == data.newCard.type && card.number == data.newCard.number
     );
     clientDeck.splice(indx, 1);
     client.emit("HAND_REQUEST", clientDeck);
@@ -450,6 +448,7 @@ io.on("connection", (client) => {
     }
   }
   setupClients(client);
+  broadcastNoti("Welcome to phase10.", client);
   UpdateRoomInfo();
 });
 
@@ -459,7 +458,7 @@ const createPlayerObject = (clientid, STATE = "NOT_READY") => ({
   STATE,
   phase: 0,
   phaseStacks: [],
-  phaseState:"INCOMPLETE"
+  phaseState: "INCOMPLETE",
 });
 
 const createPlayerHand = (clientid) => ({
@@ -474,8 +473,6 @@ var fakeDeck = [
   { type: "Red", number: "5" },
   { type: "Red", number: "6" },
 ];
-
-//console.log(runOf(fakeDeck, 3));
 
 const port = 13337;
 io.listen(port);

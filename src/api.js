@@ -17,6 +17,12 @@ export const setupHand = (setGlobalHand) => {
     setGlobalHand(hand);
   });
 };
+
+export const setupNotifications = (setupNoti) => {
+  socket.on("NOTI", (msg) => {
+    setupNoti(msg);
+  });
+};
 export const onSocketConnect = (cb) => {
   socket.on("connect", () => {
     cb(socket.id);
@@ -64,6 +70,6 @@ export const submitPhase = (stacks) => {
   socket.emit("PHASE_COMPLETE", stacks);
 };
 
-export const updateStack = (playerID,stackIndx,newStack,newCard)=>{
-  socket.emit("UPDATE_STACK",{playerID,stackIndx,newStack,newCard});
-}
+export const updateStack = (playerID, stackIndx, newStack, newCard) => {
+  socket.emit("UPDATE_STACK", { playerID, stackIndx, newStack, newCard });
+};

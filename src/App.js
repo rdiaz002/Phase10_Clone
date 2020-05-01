@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { setupClient, setupHand } from "./api";
+import { setupClient, setupHand, setupNotifications } from "./api";
 
 import Chat from "./containers";
 import Dashboard from "./containers/dashboard";
 import * as actions from "./actions";
 import NameWindow from "./components/namewindow";
 import Game from "./components/gamewindow/game";
+import { toast } from "react-toastify";
 
 const App = ({ dispatch, state }) => {
   const setGlobalState = (serverState) => {
@@ -29,9 +30,15 @@ const App = ({ dispatch, state }) => {
     dispatch(actions.updatePlayerState());
   };
 
+  const setupNoti = (msg, level = "info") => {
+    toast(msg);
+  };
+
   useEffect(() => {
     setupClient(setGlobalState, setPlayerID, stateChangeCB);
     setupHand(setGlobalHand);
+    setupNotifications(setupNoti);
+    toast("hello", { autoClose: 1000 });
   }, []);
 
   return (
