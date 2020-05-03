@@ -28,41 +28,81 @@ const setOf = (cards = [], size) => {
     if (initial == null) {
       initial = card;
       cond = cond && true;
-      console.log("init", initial, cond);
     } else if (initial.number == card.number) {
       cond = cond && true;
-      console.log("match", initial, cond);
     } else {
       cond = cond && false;
-      console.log("mismatch", initial, cond);
     }
   });
 
   return cond;
 };
 
+const customSort = (cards) => {
+  var indeces = [];
+  var buff = [];
+  var numBuff = [];
+  for (var i = 0; i < cards.length; i++) {
+    if (cards[i].number == 0) {
+      indeces.push(i);
+    }
+  }
+  buff = cards.filter((card) => card.number == 0);
+  numBuff = cards.filter((card) => card.number > 0);
+
+  numBuff.sort((first, second) => first.number > second.number);
+
+  for (var i = 0, j = 0; indeces.length > 0; ) {
+    if (j < numBuff.length && indeces[0] > j) {
+      j++;
+    } else if (j < numBuff.length && indeces[0] <= j) {
+      numBuff.splice(j, 0, buff.pop());
+      j++;
+      indeces.splice(0, 1);
+    } else {
+      numBuff.push(buff.pop());
+      indeces.splice(0, 1);
+    }
+  }
+};
+
 const runOf = (cards = [], size) => {
   if (cards.length < size) {
     return false;
   }
+  var tempCards = [...cards];
   var initial;
   var cond = true;
+  var wildCount = 0;
+  var wildEnd = 0;
+  customSort(tempCards);
 
-  cards.forEach((card) => {
+  tempCards.forEach((card, index) => {
     if (initial == null) {
       if (card.type == "Wild") {
         cond = cond && true;
+        wildCount++;
+        wildEnd = index + 1;
         return;
       } else if (card.type == "Skip") {
         cond = cond && false;
         return;
       } else {
         initial = parseInt(card.number);
+        if (initial - wildCount <= 0) {
+          cond = cond && false;
+          return;
+        } else {
+          for (var i = wildEnd - wildCount; i < wildEnd; i++) {
+            cards[i].number = initial - wildCount + i;
+          }
+        }
         cond = cond && true;
       }
     } else {
       if (card.type == "Wild") {
         initial++;
+        card.number = initial;
         cond = cond && true;
       } else if (card.type == "Skip") {
         cond = cond && false;
@@ -78,6 +118,11 @@ const runOf = (cards = [], size) => {
       }
     }
   });
+
+  if (cond) {
+    cards = tempCards;
+  }
+
   return cond;
 };
 
@@ -151,11 +196,12 @@ var gameState = "WAITING";
 var playersHands = [];
 var currentPlayer = "";
 var currentIndex = 0;
-var deck = [...DEFAULT_DECK];
+var deck = JSON.parse(JSON.stringify(DEFAULT_DECK));
 var deckSize = 108;
 var discardPile = [];
 
-const UpdateRoomInfo = () => {
+const updateRoomInfo = () => {
+  checkGame();
   io.emit("ROOM_INFO", {
     hostID,
     playerList,
@@ -164,13 +210,65 @@ const UpdateRoomInfo = () => {
     discardPile,
     phases: DEFAULT_PHASES,
   });
-  //where i will pass all needed info that will be updated
+};
+
+//Checks for win conditions and when to move on to next phase.
+const checkGame = () => {
+  if (gameState == "Running") {
+    if (arePhasesComplete()) {
+      broadcastNoti("Everyone has completed their phase. Moving On");
+      phaseCheck();
+      setupRound(false);
+      io.emit("NEW_ROUND");
+    } else if (areAnyHandsEmpty()) {
+      phaseCheck();
+      setupRound(false);
+      io.emit("NEW_ROUND");
+    }
+  }
+};
+
+const areAnyHandsEmpty = () => {
+  var player = playersHands.find((player) => player.cards.length == 0);
+  if (player) {
+    player = playerList.find((playr) => playr.id == player.id);
+    broadcastNoti(
+      player.name + " had emptied their hands. Moving to the next phase."
+    );
+    return true;
+  }
+  return false;
+};
+const arePhasesComplete = () => {
+  return !playerList.some((player) => player.phaseStacks.length == 0);
+};
+
+const phaseCheck = () => {
+  playerList.forEach((player) => {
+    if (player.phaseStacks.length > 0) {
+      player.phase++;
+    }
+  });
+};
+
+const setupRound = (resetPhase = true) => {
+  playersHands = [];
+  deck = JSON.parse(JSON.stringify(DEFAULT_DECK));
+  randomizeDeck();
+  deckSize = 108;
+  resetPlayerInfo(resetPhase);
+  currentPlayer = chooseRandomPlayer();
+  discardPile = dealDeck(1);
+  while (discardPile[0].type == "Skip") {
+    returnToDeck(discardPile);
+    discardPile = dealDeck(1);
+  }
 };
 
 //reset players for new game.
-const resetPlayerInfo = () => {
+const resetPlayerInfo = (resetPhase) => {
   playerList.forEach((player) => {
-    player.phase = 0;
+    player.phase = resetPhase ? 0 : player.phase;
     player.phaseStacks = [];
     player.phaseState = "INCOMPLETE";
   });
@@ -230,7 +328,7 @@ const dealDeck = (size) => {
 };
 
 const chooseRandomPlayer = () => {
-  var index = getRndInt(0, playerList.length);
+  var index = getRndInt(0, playerList.length - 1);
   currentIndex = index;
   return playerList[index].id;
 };
@@ -261,7 +359,7 @@ const setupClients = (client) => {
         val.name = name;
       }
     });
-    UpdateRoomInfo();
+    updateRoomInfo();
     broadcastNoti(name + " has joined the game");
   });
 
@@ -270,18 +368,8 @@ const setupClients = (client) => {
     if (client.client.id == hostID) {
       //when host starts game
       gameState = "Running";
-      playersHands = [];
-      deck = [...DEFAULT_DECK];
-      randomizeDeck();
-      deckSize = 108;
-      resetPlayerInfo();
-      currentPlayer = chooseRandomPlayer();
-      discardPile = dealDeck(1);
-      while (discardPile[0].type == "Skip") {
-        returnToDeck(discardPile);
-        discardPile = dealDeck(1);
-      }
-      UpdateRoomInfo();
+      setupRound();
+      updateRoomInfo();
     }
   });
 
@@ -290,7 +378,7 @@ const setupClients = (client) => {
     playerList.find((player) => {
       return player.id == client.client.id;
     }).STATE = "READY";
-    UpdateRoomInfo();
+    updateRoomInfo();
   });
 
   //CREATE HAND
@@ -325,7 +413,7 @@ const setupClients = (client) => {
     hand.push(card);
     client.emit("HAND_REQUEST", hand);
     client.emit("NEXT_STATE");
-    UpdateRoomInfo();
+    updateRoomInfo();
   });
 
   //Discard Card
@@ -347,7 +435,7 @@ const setupClients = (client) => {
         nextPlayer();
       }
 
-      UpdateRoomInfo();
+      updateRoomInfo();
     }
   });
 
@@ -364,6 +452,9 @@ const setupClients = (client) => {
           if (card.type == cType && card.number == cNum) {
             playerHand.splice(i, 1);
             break;
+          } else if (card.type == "Wild" && cType == "Wild") {
+            playerHand.splice(i, 1);
+            break;
           }
         }
       });
@@ -372,7 +463,7 @@ const setupClients = (client) => {
     player.phaseStacks = stacks;
     player.phaseState = "COMPLETE";
     client.emit("HAND_REQUEST", playerHand);
-    UpdateRoomInfo();
+    updateRoomInfo();
   });
 
   //Update Stack
@@ -390,7 +481,7 @@ const setupClients = (client) => {
     );
     clientDeck.splice(indx, 1);
     client.emit("HAND_REQUEST", clientDeck);
-    UpdateRoomInfo();
+    updateRoomInfo();
   });
 
   //disconnect
@@ -422,12 +513,13 @@ const setupClients = (client) => {
     if (currentPlayer == client.client.id && playerList.length > 0) {
       nextPlayer(0);
     }
-    UpdateRoomInfo();
+    updateRoomInfo();
   });
 };
 
 io.on("connection", (client) => {
   client.emit("PLAYER_ID", client.client.id);
+
   if (gameState == "Running") {
     client.emit("ROOM_INFO", { hostID, playerList, gameState: "FULL" });
     client.disconnect();
@@ -449,7 +541,7 @@ io.on("connection", (client) => {
   }
   setupClients(client);
   broadcastNoti("Welcome to phase10.", client);
-  UpdateRoomInfo();
+  updateRoomInfo();
 });
 
 const createPlayerObject = (clientid, STATE = "NOT_READY") => ({
@@ -467,11 +559,13 @@ const createPlayerHand = (clientid) => ({
 });
 
 var fakeDeck = [
-  { type: "Blue", number: "2" },
-  { type: "Wild", number: "1" },
-  { type: "Red", number: "3" },
-  { type: "Red", number: "5" },
-  { type: "Red", number: "6" },
+  { type: "Wild", number: "0" },
+  { type: "Wild", number: "0" },
+  { type: "Red", number: "4" },
+  { type: "Wild", number: "0" },
+
+  { type: "Wild", number: "0" },
+  { type: "Wild", number: "0" },
 ];
 
 const port = 13337;

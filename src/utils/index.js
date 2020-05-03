@@ -40,10 +40,13 @@ export const getPlayerList = () => {
   return state.playerList;
 };
 
-export const isPhaseComplete=()=>{
+export const isPhaseComplete = () => {
   const state = store.getState();
-  return state.playerList.find((player)=>(player.id==state.playerID)).phaseState =="COMPLETE";
-}
+  return (
+    state.playerList.find((player) => player.id == state.playerID).phaseState ==
+    "COMPLETE"
+  );
+};
 
 export const checks = [
   (cards = [], size) => {
@@ -78,24 +81,39 @@ export const checks = [
     if (cards.length < size) {
       return false;
     }
+    var tempCards = [...cards];
     var initial;
     var cond = true;
+    var wildCount = 0;
+    var wildEnd = 0;
+    customSort(tempCards);
 
-    cards.forEach((card) => {
+    tempCards.forEach((card, index) => {
       if (initial == null) {
         if (card.type == "Wild") {
           cond = cond && true;
+          wildCount++;
+          wildEnd = index + 1;
           return;
         } else if (card.type == "Skip") {
           cond = cond && false;
           return;
         } else {
           initial = parseInt(card.number);
+          if (initial - wildCount <= 0) {
+            cond = cond && false;
+            return;
+          } else {
+            for (var i = wildEnd - wildCount; i < wildEnd; i++) {
+              cards[i].number = initial - wildCount + i;
+            }
+          }
           cond = cond && true;
         }
       } else {
         if (card.type == "Wild") {
           initial++;
+          card.number = initial;
           cond = cond && true;
         } else if (card.type == "Skip") {
           cond = cond && false;
@@ -111,6 +129,39 @@ export const checks = [
         }
       }
     });
+
+    if (cond) {
+      cards = tempCards;
+    }
+
     return cond;
   },
 ];
+
+const customSort = (cards) => {
+  var indeces = [];
+  var buff = [];
+  var numBuff = [];
+  for (var i = 0; i < cards.length; i++) {
+    if (cards[i].number == 0) {
+      indeces.push(i);
+    }
+  }
+  buff = cards.filter((card) => card.number == 0);
+  numBuff = cards.filter((card) => card.number > 0);
+
+  numBuff.sort((first, second) => first.number > second.number);
+
+  for (var i = 0, j = 0; indeces.length > 0; ) {
+    if (j < numBuff.length && indeces[0] > j) {
+      j++;
+    } else if (j < numBuff.length && indeces[0] <= j) {
+      numBuff.splice(j, 0, buff.pop());
+      j++;
+      indeces.splice(0, 1);
+    } else {
+      numBuff.push(buff.pop());
+      indeces.splice(0, 1);
+    }
+  }
+};

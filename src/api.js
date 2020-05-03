@@ -1,5 +1,8 @@
 import openSocket from "socket.io-client";
-export const socket = openSocket(process.env.REACT_APP_SERVER_URL);
+export const socket = openSocket(process.env.REACT_APP_SERVER_URL, {
+  timeout: 5000,
+  reconnection: false,
+});
 
 export const setupClient = (setGlobalStates, setPlayerID, stateChangeCB) => {
   socket.on("ROOM_INFO", (serverState) => {
@@ -10,6 +13,20 @@ export const setupClient = (setGlobalStates, setPlayerID, stateChangeCB) => {
   });
   socket.on("NEXT_STATE", () => {
     stateChangeCB();
+  });
+
+  socket.on("NEW_ROUND", () => {
+    requestHand();
+    stateChangeCB("PICKUP");
+  });
+  socket.on("connect_error", () => {
+    alert(
+      "There was an error reaching the server. Refresh the page to try again."
+    );
+  });
+
+  socket.on("disconnect", () => {
+    alert("You were disconnected. Refresh the page");
   });
 };
 export const setupHand = (setGlobalHand) => {

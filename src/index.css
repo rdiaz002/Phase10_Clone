@@ -35,7 +35,7 @@ code {
 .Card {
   max-width: fit-content;
   min-width: 7.5vw;
-  height: 11vh;
+  height: 10vw;
   font-size: 1.5vw;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
@@ -208,12 +208,16 @@ code {
 }
 
 .StackContainer .Card {
-  font-size: 70%;
-  width: 70%;
+  font-size: 1.1vw;
+  min-width: 5vw;
+  width: 5vw;
+  height: 6.7vw;
   margin: 10px;
   padding: 10px;
 }
-
+.Flex {
+  display: flex;
+}
 .Toastify__toast-container {
   z-index: 9999;
   -webkit-transform: translate3d(0, 0, 9999px);

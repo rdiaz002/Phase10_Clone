@@ -26,8 +26,8 @@ const App = ({ dispatch, state }) => {
     dispatch(actions.updatePlayerID(id));
   };
 
-  const stateChangeCB = () => {
-    dispatch(actions.updatePlayerState());
+  const stateChangeCB = (state = "") => {
+    dispatch(actions.updatePlayerState(state));
   };
 
   const setupNoti = (msg, level = "info") => {
@@ -38,7 +38,6 @@ const App = ({ dispatch, state }) => {
     setupClient(setGlobalState, setPlayerID, stateChangeCB);
     setupHand(setGlobalHand);
     setupNotifications(setupNoti);
-    toast("hello", { autoClose: 1000 });
   }, []);
 
   return (

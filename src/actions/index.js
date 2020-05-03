@@ -54,11 +54,12 @@ export const updateDiscardPile = (discardPile) => ({
   discardPile,
 });
 
-export const updatePlayerState = () => ({
+export const updatePlayerState = (playerState) => ({
   type: updatePlayerState_t,
+  playerState,
 });
 
-export const updatePhases=(phases)=>({
+export const updatePhases = (phases) => ({
   type: updatePhases_t,
-  phases
-})
+  phases,
+});

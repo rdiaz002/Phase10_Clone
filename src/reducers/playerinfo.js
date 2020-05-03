@@ -46,7 +46,9 @@ export const playerHand = (state = [], action) => {
 export const playerState = (state = "PICKUP", action) => {
   switch (action.type) {
     case "UPDATE_PLAYERSTATE":
-      if (state == "DISCARD") {
+      if (action.playerState != "") {
+        return action.playerState;
+      } else if (state == "DISCARD") {
         return "PICKUP";
       } else {
         return "DISCARD";
