@@ -1,6 +1,6 @@
 import React from "react";
 const PlayerList = ({ playerList, hostID }) => {
-  const isHost = player => {
+  const isHost = (player) => {
     return hostID == player.id;
   };
 
@@ -8,17 +8,21 @@ const PlayerList = ({ playerList, hostID }) => {
     <div>
       <table>
         <thead>
-        <tr>
-        <th>Players</th>
-        </tr>
+          <tr>
+            <th>Players</th>
+          </tr>
         </thead>
         <tbody>
-          {playerList.map(player => {
+          {playerList.map((player) => {
             return (
               <tr key={player.id}>
                 <td>
                   {player.name === "" ? player.id : player.name}
-                  {isHost(player) ? <strong> Host</strong> : <strong> {player.STATE}</strong>}
+                  {isHost(player) ? (
+                    <strong> Host</strong>
+                  ) : (
+                    <strong> {player.STATE}</strong>
+                  )}
                 </td>
               </tr>
             );

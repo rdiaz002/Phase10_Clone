@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import * as utils from "../../../utils";
 import * as api from "../../../api";
 const StackSubmission = (props) => {
-  //TODO: add display to show card submission for stack.
   //TODO: make code easier to read.
 
   const [playerHand, setHand] = useState([]);
@@ -21,7 +20,6 @@ const StackSubmission = (props) => {
       : [...props.bundle.stack.deck, playerHand[index]];
 
     if (utils.checks[funcID](deck, deck.length)) {
-      //TODO: send new card to player stack and update server.
       api.updateStack(
         props.bundle.ownerID,
         props.bundle.stackIndx,

@@ -5,14 +5,14 @@ import * as api from "../../api";
 const Menu = () => {
   //Create Check to make sure all players are ready.
 
-  const handleStartClick = e => {
+  const handleStartClick = (e) => {
     e.preventDefault();
     if (util.arePlayersReady()) {
       api.startGame();
     }
   };
 
-  const handleReadyClick = e => {
+  const handleReadyClick = (e) => {
     e.preventDefault();
     api.updatePlayerState();
     e.target.disabled = true;

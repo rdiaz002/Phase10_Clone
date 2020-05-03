@@ -3,10 +3,7 @@ const Deque = require("collections/deque");
 const Random = require("random-js").Random;
 const random = new Random();
 /**
- * TODO: add phase patterns and checks
  * TODO: add winning conditions and ending game logic.
- * TODO: add logic for players disconnecting in middle of game.
- * TODO: change currentPlayer to an index for easier search.
  */
 
 const setOf = (cards = [], size) => {

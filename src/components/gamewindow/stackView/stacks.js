@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import StackSubmission from "./stackSubmission";
-import { isCurrentPlayer,isPhaseComplete } from "../../../utils";
+import { isCurrentPlayer, isPhaseComplete } from "../../../utils";
 
 const PlayerStacks = ({ playerList }) => {
   const [showStkSub, setStkSub] = useState(false);
   const [bundle, setBundle] = useState({});
 
-  //TODO:update stack view to show new added card. 
+  //TODO:update stack view to show new added card.
   const handleStackClick = (e, playerID, stackIndx) => {
     if (isCurrentPlayer() && isPhaseComplete()) {
       var ownerID = playerID;
@@ -18,7 +18,7 @@ const PlayerStacks = ({ playerList }) => {
   };
 
   const handleSubmit = () => {
-      setStkSub(!showStkSub);
+    setStkSub(!showStkSub);
   };
   return (
     <div className="StacksView">

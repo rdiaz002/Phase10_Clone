@@ -8,10 +8,9 @@ export const gameState = (state = "WAITING", action) => {
 };
 
 export const currentPlayer = (state = "", action) => {
-  
   switch (action.type) {
     case "UPDATE_TURN":
-      return !action.currentPlayer?state:action.currentPlayer;
+      return !action.currentPlayer ? state : action.currentPlayer;
     default:
       return state;
   }
@@ -20,7 +19,7 @@ export const currentPlayer = (state = "", action) => {
 export const discardPile = (state = [], action) => {
   switch (action.type) {
     case "UPDATE_PILE":
-      return !action.discardPile?state:action.discardPile;
+      return !action.discardPile ? state : action.discardPile;
     default:
       return state;
   }
@@ -29,7 +28,7 @@ export const discardPile = (state = [], action) => {
 export const phases = (state = [], action) => {
   switch (action.type) {
     case "UPDATE_PHASES":
-      return !action.phases?state:action.phases;
+      return !action.phases ? state : action.phases;
     default:
       return state;
   }
