@@ -136,6 +136,39 @@ export const checks = [
 
     return cond;
   },
+  (cards ,size)=>{
+    var initialColor;
+    var cond=true;
+    cards.forEach((card)=>{
+      if(!initialColor){
+        switch(card.type){
+          case "Wild":
+            cond = cond && true;
+            break;
+          case "Skip":
+            cond = cond && false;
+            break;
+          default:
+            initialColor=card.type;
+            cond = cond && true;
+            break;
+        }
+      }else{
+        switch(card.type){
+          case "Wild":
+            cond = cond && true;
+            break;
+          case "Skip":
+            cond = cond && false;
+            break;
+          default:
+            cond = cond && (card.type==initialColor?true:false);
+            break;
+        }
+      }
+    })
+    return cond;
+  },
 ];
 
 const customSort = (cards) => {

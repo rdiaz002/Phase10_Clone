@@ -126,6 +126,40 @@ const runOf = (cards = [], size) => {
   return cond;
 };
 
+const colorOf=(cards ,size)=>{
+  var initialColor;
+  var cond=true;
+  cards.forEach((card)=>{
+    if(!initialColor){
+      switch(card.type){
+        case "Wild":
+          cond = cond && true;
+          break;
+        case "Skip":
+          cond = cond && false;
+          break;
+        default:
+          initialColor=card.type;
+          cond = cond && true;
+          break;
+      }
+    }else{
+      switch(card.type){
+        case "Wild":
+          cond = cond && true;
+          break;
+        case "Skip":
+          cond = cond && false;
+          break;
+        default:
+          cond = cond && (card.type==initialColor?true:false);
+          break;
+      }
+    }
+  })
+  return cond;
+}
+
 var DEFAULT_PHASES = [
   {
     patterns: [
@@ -162,8 +196,7 @@ var DEFAULT_PHASES = [
   },
   {
     patterns: [
-      { check: setOf, size: 3, desc: "Set of", funcID: 0 },
-      { check: runOf, size: 4, desc: "Run of", funcID: 1 },
+      { check: colorOf, size: 7, desc: "Color Set of", funcID: 2 },
     ],
   },
   {
@@ -268,7 +301,7 @@ const setupRound = (resetPhase = true) => {
 //reset players for new game.
 const resetPlayerInfo = (resetPhase) => {
   playerList.forEach((player) => {
-    player.phase = resetPhase ? 0 : player.phase;
+    player.phase = resetPhase ? 7 : player.phase;
     player.phaseStacks = [];
     player.phaseState = "INCOMPLETE";
   });
@@ -548,7 +581,7 @@ const createPlayerObject = (clientid, STATE = "NOT_READY") => ({
   name: "",
   id: clientid,
   STATE,
-  phase: 0,
+  phase: 7,
   phaseStacks: [],
   phaseState: "INCOMPLETE",
 });
@@ -559,14 +592,15 @@ const createPlayerHand = (clientid) => ({
 });
 
 var fakeDeck = [
+  { type: "Blue", number: "0" },
   { type: "Wild", number: "0" },
-  { type: "Wild", number: "0" },
-  { type: "Red", number: "4" },
-  { type: "Wild", number: "0" },
+  { type: "Blue", number: "4" },
+  { type: "Skip", number: "0" },
 
   { type: "Wild", number: "0" },
-  { type: "Wild", number: "0" },
+  { type: "Blue", number: "0" },
 ];
+
 
 const port = 13337;
 io.listen(port);
