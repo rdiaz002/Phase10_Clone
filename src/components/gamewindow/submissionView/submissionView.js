@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as utils from "../../../utils";
 import HoldView from "./holdView";
 import { submitPhase } from "../../../api";
-
+import Card from "../../card";
 const Submission = (props) => {
   const [subDeck, setSubDeck] = useState([]);
   const [holdDeck, setHoldDeck] = useState([]);
@@ -63,10 +63,7 @@ const Submission = (props) => {
         <div className="SelectView">
           <div className="SelectContainer">
             {subDeck.map((card, index) => (
-              <div className="Card" key={index} id={index} onClick={returnCard}>
-                <h2>{card.type}</h2>
-                <h1>{card.number}</h1>
-              </div>
+              <Card card={card} index={index} click={returnCard} />
             ))}
           </div>
           <div className="ButtonDiv">
@@ -85,15 +82,7 @@ const Submission = (props) => {
         </div>
         <div className="SubContainer">
           {playerHand.map((card, index) => (
-            <div
-              className="Card"
-              key={index}
-              id={index}
-              onClick={handleCardSubmit}
-            >
-              <h2>{card.type}</h2>
-              <h1>{card.number}</h1>
-            </div>
+            <Card card={card} index={index} click={handleCardSubmit} />
           ))}
         </div>
         <HoldView holdDeck={holdDeck} />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import StackSubmission from "./stackSubmission";
 import { isCurrentPlayer, isPhaseComplete } from "../../../utils";
-
+import Card from "../../card";
 const PlayerStacks = ({ playerList }) => {
   const [showStkSub, setStkSub] = useState(false);
   const [bundle, setBundle] = useState({});
@@ -36,11 +36,8 @@ const PlayerStacks = ({ playerList }) => {
                   handleStackClick(e, player.id, index);
                 }}
               >
-                {stack.deck.map((card) => (
-                  <div className="Card">
-                    <h2>{card.type}</h2>
-                    <h2>{card.number}</h2>
-                  </div>
+                {stack.deck.map((card, index) => (
+                  <Card card={card} index={index} />
                 ))}
               </div>
             ))}

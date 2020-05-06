@@ -1,5 +1,5 @@
 import React from "react";
-
+import Card from "../../card";
 const HoldView = (props) => {
   return (
     <>
@@ -10,10 +10,7 @@ const HoldView = (props) => {
         {props.holdDeck.map((stack) => (
           <div className="Container">
             {stack.deck.map((card, index) => (
-              <div className="Card" key={index} id={index}>
-                <h2>{card.type}</h2>
-                <h1>{card.number}</h1>
-              </div>
+              <Card card={card} index={index} />
             ))}
           </div>
         ))}

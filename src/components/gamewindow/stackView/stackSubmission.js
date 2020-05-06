@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import Card from "../../card";
 import * as utils from "../../../utils";
 import * as api from "../../../api";
 const StackSubmission = (props) => {
@@ -46,10 +46,7 @@ const StackSubmission = (props) => {
         </button>
         <div className="SubContainer">
           {props.bundle.stack.deck.map((card, index) => (
-            <div className="Card" key={index} id={index}>
-              <h2>{card.type}</h2>
-              <h1>{card.number}</h1>
-            </div>
+            <Card card={card} index={index} />
           ))}
         </div>
         <button
@@ -62,17 +59,13 @@ const StackSubmission = (props) => {
       </div>
       <div className="SubContainer">
         {playerHand.map((card, index) => (
-          <div
-            className="Card"
-            key={index}
-            id={index}
-            onClick={(e) => {
+          <Card
+            card={card}
+            index={index}
+            click={(e) => {
               addCard(e, index);
             }}
-          >
-            <h2>{card.type}</h2>
-            <h1>{card.number}</h1>
-          </div>
+          />
         ))}
       </div>
     </div>
