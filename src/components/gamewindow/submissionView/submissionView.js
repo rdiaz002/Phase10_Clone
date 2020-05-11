@@ -82,7 +82,7 @@ const Submission = (props) => {
         <div className="SelectView">
           <div className="SelectContainer">
             {subDeck.map((card, index) => (
-              <Card card={card} index={index} click={returnCard} />
+              <Card card={card} key={index} index={index} click={returnCard} />
             ))}
           </div>
           <div className="ButtonDiv">
@@ -101,7 +101,12 @@ const Submission = (props) => {
         </div>
         <div className="SubContainer">
           {playerHand.map((card, index) => (
-            <Card card={card} index={index} click={handleCardSubmit} />
+            <Card
+              card={card}
+              key={index}
+              index={index}
+              click={handleCardSubmit}
+            />
           ))}
         </div>
         <HoldView holdDeck={holdDeck} />

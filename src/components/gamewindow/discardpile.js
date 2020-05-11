@@ -14,7 +14,7 @@ const DiscardPile = ({ discardPile, playerState }) => {
     <div className="Discard">
       <div className="DiscardContainer">
         {discardPile.map((card, index) => (
-          <Card card={card} index={index} click={handleOnClick} />
+          <Card card={card} key={index} index={index} click={handleOnClick} />
         ))}
 
         <PickUpDeck playerState={playerState} />

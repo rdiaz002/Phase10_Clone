@@ -31,7 +31,7 @@ const CardView = ({ playerHand, playerState, phases }) => {
           }
         >
           {playerHand.map((card, index) => (
-            <Card card={card} index={index} click={handleOnClick} />
+            <Card card={card} key={index} index={index} click={handleOnClick} />
           ))}
         </div>
       </div>
