@@ -25,15 +25,16 @@ const Card = (props) => {
     height: "10vw",
     fontSize: "1.5vw",
     boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-    transition: "0.3s",
-    borderRadius: "5px",
     margin: "10px",
     padding: "10px",
     flex: "1",
+    borderRadius: "5px",
+    border:"3px solid black"
   };
 
   return (
     <div
+    className="Card"
       style={cardStyle}
       key={props.index}
       id={props.index}

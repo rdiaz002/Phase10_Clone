@@ -3,10 +3,13 @@ import * as utils from "../../../utils";
 import HoldView from "./holdView";
 import { submitPhase } from "../../../api";
 import Card from "../../card";
+import { toast } from "react-toastify";
+
 const Submission = (props) => {
   const [subDeck, setSubDeck] = useState([]);
   const [holdDeck, setHoldDeck] = useState([]);
   const [playerHand, setPlayerHand] = useState([]);
+
   useEffect(() => {
     props.currentPhases.patterns.forEach((pattern) => {
       holdDeck.push({ desc: pattern.desc, funcID: pattern.funcID, deck: [] });
@@ -48,8 +51,24 @@ const Submission = (props) => {
   };
 
   const handlePhaseSubmit = (e) => {
-    submitPhase(holdDeck);
-    props.onSubmit(e);
+    var res = holdDeck.reduce((prev, stack) => {
+      if (stack.deck.length > 0) {
+        return prev && true;
+      } else {
+        return prev && false;
+      }
+    }, true);
+
+    if (res) {
+      submitPhase(holdDeck);
+      toast("Phase Completed", { type: "success", autoClose: 1000 });
+      props.onSubmit(e);
+    } else {
+      toast("Must complete all stacks before submission.", {
+        type: "error",
+        autoClose: 1000,
+      });
+    }
   };
 
   return (

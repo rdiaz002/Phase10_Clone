@@ -27,6 +27,7 @@ const StackSubmission = (props) => {
         newCard
       );
       playerHand.splice(index, 1);
+      props.bundle.stack.deck.push(newCard);
       setHand(playerHand);
     } else {
       console.log("BAD CARD");

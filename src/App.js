@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { setupClient, setupHand, setupNotifications } from "./api";
-
+import "../node_modules/react-toastify/dist/ReactToastify.css";
 import Chat from "./containers";
 import Dashboard from "./containers/dashboard";
 import * as actions from "./actions";
@@ -31,7 +31,7 @@ const App = ({ dispatch, state }) => {
   };
 
   const setupNoti = (msg, level = "info") => {
-    toast(msg);
+    toast(msg, {autoClose:2000, type:level});
   };
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const App = ({ dispatch, state }) => {
         <h1>GAME IN PROGRESS</h1>
       ) : (
         <>
-          <Dashboard />
+        {state.gameState=="WAITING"?<Dashboard/>:null}
           <Game />
           <Chat />
           {state.playerName == "" ? (
