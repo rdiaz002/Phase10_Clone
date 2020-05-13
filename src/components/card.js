@@ -8,7 +8,7 @@ const Card = (props) => {
       case "Green":
         return "#00ff00";
       case "Blue":
-        return "#0000ff";
+        return "#3672F2";
       case "Yellow":
         return "#ffff00";
       case "Wild":
@@ -20,21 +20,11 @@ const Card = (props) => {
 
   const cardStyle = {
     backgroundColor: getColor(),
-    maxWidth: "fit-content",
-    minWidth: "7.5vw",
-    height: "10vw",
-    fontSize: "1.5vw",
-    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-    margin: "10px",
-    padding: "10px",
-    flex: "1",
-    borderRadius: "5px",
-    border:"3px solid black"
   };
 
   return (
     <div
-    className="Card"
+      className="Card"
       style={cardStyle}
       key={props.index}
       id={props.index}

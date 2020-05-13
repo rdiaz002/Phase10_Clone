@@ -40,6 +40,10 @@ export const getPlayerList = () => {
   return state.playerList;
 };
 
+export const getPhases = () => {
+  return store.getState().phases;
+};
+
 export const isPhaseComplete = () => {
   const state = store.getState();
   return (

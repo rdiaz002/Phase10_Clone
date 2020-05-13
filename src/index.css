@@ -41,15 +41,15 @@ code {
   font-size: 1.5vw;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  margin: 10px;
   padding: 10px;
   flex: 1;
+  border: 3px solid black;
 }
 
 .Container {
   width: 60%;
   min-height: 10%;
-  margin: 0 auto;
+  margin: 10px auto;
   display: flex;
   flex-wrap: wrap;
 }
@@ -68,7 +68,8 @@ code {
 }
 
 .DiscardContainer {
-  width: fit-content;
+  width:11vw;
+  margin:0 10px;
   display: flex;
 }
 
@@ -86,18 +87,24 @@ code {
   z-index: 24;
 }
 
-.DiscardContainer .Deck {
-  width: fit-content;
+.Discard .Deck {
+  max-width: 10vw;
+  width: 7vw;
   height: 10vw;
-  margin: 10px;
+  margin: 0 1vw;
   padding: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   border: 3px solid black;
-  font-size: 1.5vw;
+  font-size:1.4vw;
   flex: 1;
 }
 
+
+.Discard{
+  display:flex;
+
+}
 .NoGo {
   border: solid;
   border-width: 3px;
@@ -124,7 +131,8 @@ code {
 
 .StacksView {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  overflow: auto;
 }
 
 .SubmissionView {
@@ -201,120 +209,88 @@ code {
   display: flex;
   justify-content: center;
   flex: 1;
+  width:fit-content;
+  padding: 2px;
   margin: 5px;
   border-radius: 10px;
   background-color: gray;
 }
 
 .StackContainer .Card {
-  font-size: 1.1vw;
-  min-width: 5vw;
-  width: 5vw;
-  height: 6.7vw;
-  margin: 10px;
+  max-width: fit-content;
+  min-width: 2.4vw;
+  height: 4vw;
+  font-size: 0.55vw;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
   padding: 10px;
+  margin:2px;
+  flex: 1;
+  border: 3px solid black;
 }
 .Flex {
   display: flex;
 }
-.Toastify__toast-container {
-  z-index: 9999;
-  -webkit-transform: translate3d(0, 0, 9999px);
-  position: fixed;
-  padding: 4px;
-  width: 30vw;
-  box-sizing: border-box;
-  color: #fff;
-}
-.Toastify__toast-container--top-left {
-  top: 1em;
-  left: 1em;
-}
-.Toastify__toast-container--top-center {
-  top: 1em;
-  left: 50%;
-  margin-left: -160px;
-}
-.Toastify__toast-container--top-right {
-  top: 1em;
-  right: 1em;
-}
-.Toastify__toast-container--bottom-left {
-  bottom: 1em;
-  left: 1em;
-}
-.Toastify__toast-container--bottom-center {
-  bottom: 1em;
-  left: 50%;
-  margin-left: -160px;
-}
-.Toastify__toast-container--bottom-right {
-  bottom: 1em;
-  right: 1em;
-}
 
-.Toastify__close-button {
-  color: #fff;
-  font-weight: bold;
-  font-size: 14px;
-  background: transparent;
-  outline: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: 0.1s ease;
-  -ms-flex-item-align: start;
-  align-self: flex-start;
-}
-.Toastify__close-button--default {
-  color: #000;
-  opacity: 0.3;
-}
-.Toastify__close-button:hover,
-.Toastify__close-button:focus {
-  opacity: 1;
-}
-
-.Toastify__toast {
-  position: relative;
-  min-height: 64px;
-  box-sizing: border-box;
-  margin-bottom: 1rem;
-  padding: 8px;
-  border-radius: 1px;
-  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
-  display: -ms-flexbox;
+.FlexColumn{
   display: flex;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  max-height: 800px;
-  overflow: hidden;
-  font-family: sans-serif;
-  cursor: pointer;
-  direction: ltr;
+  flex-direction: column;
+  justify-content: center;
 }
-.Toastify__toast--rtl {
-  direction: rtl;
+
+.FlexColumn h3{
+  font-size:2vw;
 }
-.Toastify__toast--default {
-  background: #fff;
-  color: #aaa;
-}
-.Toastify__toast--info {
-  background: #3498db;
-}
-.Toastify__toast--success {
-  background: #07bc0c;
-}
-.Toastify__toast--warning {
-  background: #f1c40f;
-}
-.Toastify__toast--error {
-  background: #e74c3c;
-}
-.Toastify__toast-body {
-  margin: auto 0;
-  -ms-flex: 1;
+
+.PhaseCard{
+  width: 20vw;
+  height: 15vw;
+  margin: 0 1vw;
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  border: 3px solid black;
+  font-size:1.4vw;
   flex: 1;
+  overflow:auto;
+}
+
+.StackUnit{
+  min-width: 100px;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Stack{
+  width:fit-content;
+}
+
+@media only screen and (max-width:700px){
+  .Discard .Deck{
+    font-size:0.5em;
+    
+    width: 20px;
+    flex:1;
+  }
+  .DiscardContainer {
+    width:12vw;
+  }
+  .Container{
+    width:80%;
+  }
+  .PhaseCard{
+    width:35vw;
+    font-size:0.8em;
+  }
+  .StackContainer .Card {
+    font-size: 0.3em;
+    height:5vh;
+    min-width: 4vw;
+  }
+
+  .FlexColumn h3{
+    font-size:3vw;
+  }
 }

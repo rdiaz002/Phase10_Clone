@@ -23,7 +23,7 @@ const PlayerStacks = ({ playerList }) => {
   return (
     <div className="StacksView">
       {playerList.map((player, index) => (
-        <div key={index} className="">
+        <div key={index} className="StackUnit">
           <div>
             <h2>{player.name}</h2>
             <h4>phase: {player.phase}</h4>

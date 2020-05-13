@@ -10,7 +10,7 @@ const PickUpDeck = (props) => {
 
   return (
     <div className="Deck" onClick={handlePickup}>
-      <h1>DECK</h1>
+      <h2>DECK</h2>
     </div>
   );
 };
