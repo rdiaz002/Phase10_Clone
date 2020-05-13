@@ -6,7 +6,6 @@ const PlayerStacks = ({ playerList }) => {
   const [showStkSub, setStkSub] = useState(false);
   const [bundle, setBundle] = useState({});
 
-  //TODO:update stack view to show new added card.
   const handleStackClick = (e, playerID, stackIndx) => {
     if (isCurrentPlayer() && isPhaseComplete()) {
       var ownerID = playerID;

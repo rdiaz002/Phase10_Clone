@@ -3,8 +3,6 @@ import Card from "../../card";
 import * as utils from "../../../utils";
 import * as api from "../../../api";
 const StackSubmission = (props) => {
-  //TODO: make code easier to read.
-
   const [playerHand, setHand] = useState([]);
   var addToFront = false;
   useEffect(() => {

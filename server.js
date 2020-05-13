@@ -429,7 +429,6 @@ const setupClients = (client) => {
   });
 
   //REQUEST PICKUP FROM DISCAR
-  //TODO: setup server-client messaging to advise players.
   client.on("PICKUP_DISCARD", () => {
     if (discardPile[discardPile.length - 1].type == "Skip") {
       return;
