@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/phase10_clone/static/css/main.008fb34a.chunk.css",
-    "main.js": "/phase10_clone/static/js/main.e9da96a9.chunk.js",
-    "main.js.map": "/phase10_clone/static/js/main.e9da96a9.chunk.js.map",
-    "runtime-main.js": "/phase10_clone/static/js/runtime-main.dd7f6897.js",
-    "runtime-main.js.map": "/phase10_clone/static/js/runtime-main.dd7f6897.js.map",
-    "static/css/2.f42e59c9.chunk.css": "/phase10_clone/static/css/2.f42e59c9.chunk.css",
-    "static/js/2.1d13d231.chunk.js": "/phase10_clone/static/js/2.1d13d231.chunk.js",
-    "static/js/2.1d13d231.chunk.js.map": "/phase10_clone/static/js/2.1d13d231.chunk.js.map",
-    "index.html": "/phase10_clone/index.html",
-    "precache-manifest.3f73ba0c8df03a389ab63e724f063f9e.js": "/phase10_clone/precache-manifest.3f73ba0c8df03a389ab63e724f063f9e.js",
-    "service-worker.js": "/phase10_clone/service-worker.js",
-    "static/css/2.f42e59c9.chunk.css.map": "/phase10_clone/static/css/2.f42e59c9.chunk.css.map",
-    "static/css/main.008fb34a.chunk.css.map": "/phase10_clone/static/css/main.008fb34a.chunk.css.map",
-    "static/js/2.1d13d231.chunk.js.LICENSE.txt": "/phase10_clone/static/js/2.1d13d231.chunk.js.LICENSE.txt"
+    "main.css": "/Phase10_Clone/static/css/main.008fb34a.chunk.css",
+    "main.js": "/Phase10_Clone/static/js/main.e9da96a9.chunk.js",
+    "main.js.map": "/Phase10_Clone/static/js/main.e9da96a9.chunk.js.map",
+    "runtime-main.js": "/Phase10_Clone/static/js/runtime-main.33d91987.js",
+    "runtime-main.js.map": "/Phase10_Clone/static/js/runtime-main.33d91987.js.map",
+    "static/css/2.f42e59c9.chunk.css": "/Phase10_Clone/static/css/2.f42e59c9.chunk.css",
+    "static/js/2.db875934.chunk.js": "/Phase10_Clone/static/js/2.db875934.chunk.js",
+    "static/js/2.db875934.chunk.js.map": "/Phase10_Clone/static/js/2.db875934.chunk.js.map",
+    "index.html": "/Phase10_Clone/index.html",
+    "precache-manifest.2f7cc828139a5822c6b1628084afdf7c.js": "/Phase10_Clone/precache-manifest.2f7cc828139a5822c6b1628084afdf7c.js",
+    "service-worker.js": "/Phase10_Clone/service-worker.js",
+    "static/css/2.f42e59c9.chunk.css.map": "/Phase10_Clone/static/css/2.f42e59c9.chunk.css.map",
+    "static/css/main.008fb34a.chunk.css.map": "/Phase10_Clone/static/css/main.008fb34a.chunk.css.map",
+    "static/js/2.db875934.chunk.js.LICENSE.txt": "/Phase10_Clone/static/js/2.db875934.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.dd7f6897.js",
+    "static/js/runtime-main.33d91987.js",
     "static/css/2.f42e59c9.chunk.css",
-    "static/js/2.1d13d231.chunk.js",
+    "static/js/2.db875934.chunk.js",
     "static/css/main.008fb34a.chunk.css",
     "static/js/main.e9da96a9.chunk.js"
   ]
